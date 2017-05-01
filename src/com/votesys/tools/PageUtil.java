@@ -1,7 +1,7 @@
 package com.votesys.tools;
 
 /**
- * ��ҳ������
+ * 分页工具类
  * 
  * @author Administrator
  *
@@ -9,42 +9,29 @@ package com.votesys.tools;
 public class PageUtil {
 
 	/**
-	 * ��ȡ��ҳ����
+	 * 获取分页代码
 	 * 
 	 * @param targetUrl
-	 *            Ŀ���ַ
+	 *            目标地址
 	 * @param totalNum
-	 *            �ܼ�¼��
+	 *            总记录数
 	 * @param currentPage
-	 *            ��ǰҳ
+	 *            当前页
 	 * @param pageSize
-	 *            ÿҳ��С
+	 *            每页大小
 	 * @return
 	 */
-	
-	public static String getPagation(String targetUrl, int totalNum, int currentPage, int pageSize, int flag) {
+	public static String getPagation(String targetUrl, int totalNum, int currentPage, int pageSize) {
 		int totalPage = totalNum % pageSize == 0 ? totalNum / pageSize : totalNum / pageSize + 1;
 		if (totalPage == 0) {
-			if (flag == 1) {
-				return "<font color=red>�������ۣ�</font>";
-			} else {
-				return "<font color=red>δ��ѯ�����ݣ�</font>";
-			}
+			return "<font color=red>暂无数据！</font>";
 		}
 		StringBuffer pageCode = new StringBuffer();
-		if (flag == 1) {
-			pageCode.append("<li><a href='" + targetUrl + "&page=1'>��ҳ</a></li>");	
-		}else{
-			pageCode.append("<li><a href='" + targetUrl + "?page=1'>��ҳ</a></li>");			
-		}
+		pageCode.append("<li><a href='" + targetUrl + "?page=1'>首页</a></li>");	
 		if (currentPage == 1) {
-			pageCode.append("<li class='disabled'><a href='#'>��һҳ</a></li>");
+			pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
 		} else {
-			if (flag == 1) {
-				pageCode.append("<li><a href='" + targetUrl + "&page=" + (currentPage - 1) + "'>��һҳ</a></li>");
-			} else {
-				pageCode.append("<li><a href='" + targetUrl + "?page=" + (currentPage - 1) + "'>��һҳ</a></li>");
-			}
+			pageCode.append("<li><a href='" + targetUrl + "?page=" + (currentPage - 1) + "'>上一页</a></li>");
 		}
 
 		for (int i = currentPage - 1; i <= currentPage + 1; i++) {
@@ -54,29 +41,17 @@ public class PageUtil {
 			if (i == currentPage) {
 				pageCode.append("<li class='active'><a href='#'>" + i + "</a></li>");
 			} else {
-				if (flag == 1) {
-					pageCode.append("<li><a href='" + targetUrl + "&page=" + i + "'>" + i + "</a></li>");
-				} else {
-					pageCode.append("<li><a href='" + targetUrl + "?page=" + i + "'>" + i + "</a></li>");
-				}
+				pageCode.append("<li><a href='" + targetUrl + "?page=" + i + "'>" + i + "</a></li>");
 			}
 
 		}
 
 		if (currentPage == totalPage) {
-			pageCode.append("<li class='disabled'><a href='#'>��һҳ</a></li>");
+			pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
 		} else {
-			if (flag == 1) {
-				pageCode.append("<li><a href='" + targetUrl + "&page=" + (currentPage + 1) + "'>��һҳ</a></li>");
-			} else {
-				pageCode.append("<li><a href='" + targetUrl + "?page=" + (currentPage + 1) + "'>��һҳ</a></li>");
-			}
+			pageCode.append("<li><a href='" + targetUrl + "?page=" + (currentPage + 1) + "'>下一页</a></li>");
 		}
-		if (flag == 1) {
-			pageCode.append("<li><a href='" + targetUrl + "&page=" + totalPage + "'>ĩҳ</a></li>");
-		} else {
-			pageCode.append("<li><a href='" + targetUrl + "?page=" + totalPage + "'>ĩҳ</a></li>");
-		}
+		pageCode.append("<li><a href='" + targetUrl + "?page=" + totalPage + "'>末页</a></li>");
 		return pageCode.toString();
 	}
 }

@@ -35,8 +35,8 @@ public class OperRelationSVImpl implements IOperRelationSV {
 	}
 
 	@Override
-	public boolean insertUserTopicRelate(String userID, String topicID) {
-		return operRelationDAO.insertUserTopicRelate(userID, topicID);
+	public boolean insertUserTopicRelate(String userID, String topicID, String createTime) {
+		return operRelationDAO.insertUserTopicRelate(userID, topicID, createTime);
 	}
 
 }

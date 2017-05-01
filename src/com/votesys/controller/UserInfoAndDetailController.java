@@ -45,7 +45,7 @@ public class UserInfoAndDetailController {
 		UserInfoDtlBean userInfoDtl = new UserInfoDtlBean();
 		UserAllInfoBean getUserAllInfo = new UserAllInfoBean();
 		boolean retFlag = false;
-		String userID = (String) request.getSession().getAttribute("userID");
+		String userID = ((UserAllInfoBean) request.getSession().getAttribute("userSession")).getUserID();
 		
 		userInfo.setUserID(Long.parseLong(userID));
 		userInfo.setUserEmail(userAllInfo.getUserEmail());

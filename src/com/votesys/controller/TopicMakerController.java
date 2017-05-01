@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.votesys.bean.TopicInfoBean;
 import com.votesys.bean.VoteInfoBean;
 import com.votesys.common.VoteSysConstant;
+import com.votesys.qbo.bean.UserAllInfoBean;
 import com.votesys.service.operate.inter.IOperRelationSV;
 import com.votesys.service.operate.inter.IOperTopicInfoSV;
 import com.votesys.service.operate.inter.IOperVoteInfoSV;
@@ -53,9 +54,10 @@ public class TopicMakerController {
 	 */
 	@RequestMapping("/stepOneSaveTopicInfo")
 	public void stepOneSaveTopicInfo(@RequestParam("topicTitle") String topicTitle,
-			@RequestParam("topicContent") String topicContent, 
+			@RequestParam("topicContent") String topicContent, HttpServletRequest request,
 			@RequestParam("topicStatus") String topicStatus, @RequestParam("opType") String opType, 
 			@RequestParam("effTime") String effTime, HttpServletResponse response) throws Exception {
+		String userID = ((UserAllInfoBean) request.getSession().getAttribute("userSession")).getUserID();
 		TopicInfoBean topicInfo = new TopicInfoBean();
 		JSONObject ajaxResult = new JSONObject();
 		boolean retCode = false;
@@ -79,7 +81,9 @@ public class TopicMakerController {
 		}
 		
 		if (topicInfo != null) {
-			retCode = true;
+			if (retCode && StringUtils.isNotBlank(createTime)) {
+				retCode = operRelationSV.insertUserTopicRelate(userID, topicInfo.getTopicID(), createTime);
+			}
 			ajaxResult.put("topicID", topicInfo.getTopicID());
 			ajaxResult.put("topicTitle", topicInfo.getTopicTitle());
 			/*ajaxResult.put("topicContent", topicInfo.getTopicContent());
@@ -195,14 +199,13 @@ public class TopicMakerController {
 			@RequestParam("expTime") String expTime, @RequestParam("topicID") String topicID, HttpServletResponse response) throws Exception {
 		JSONObject ajaxResult = new JSONObject();
 		boolean retCode = false;
-		String userID = (String) request.getSession().getAttribute("userID");
 		
 		if (StringUtils.isNotBlank(topicID)) {
 			retCode = operVoteInfoSV.insertVoteInfo(voteStop, voteStyle, expTime, topicID);
 		}
 		
-		if (retCode) {
-			retCode = operRelationSV.insertUserTopicRelate(userID, topicID);
+		if (retCode && StringUtils.isNotBlank(expTime)) {
+			retCode = operTopicInfoSV.updateTopicInfoExpTime(expTime, topicID);
 		}
 		
 		if (retCode) {

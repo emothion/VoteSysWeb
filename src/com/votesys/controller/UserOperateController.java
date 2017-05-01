@@ -17,15 +17,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.votesys.bean.PageBean;
 import com.votesys.bean.TopicInfoBean;
 import com.votesys.bean.UserInfoBean;
-import com.votesys.bean.UserTopicRelateBean;
 import com.votesys.common.VoteSysConstant;
 import com.votesys.qbo.bean.UserAllInfoBean;
 import com.votesys.service.operate.inter.IOperUserInfoDtlSV;
 import com.votesys.service.operate.inter.IOperUserInfoSV;
-import com.votesys.service.query.inter.IQueryRelationSV;
-import com.votesys.service.query.inter.IQueryTopicInfoSV;
+import com.votesys.service.query.inter.IQueryConjunctiveSV;
 import com.votesys.service.query.inter.IQueryUserInfoAndExtSV;
 import com.votesys.service.query.inter.IQueryUserInfoSV;
+import com.votesys.tools.PageUtil;
 import com.votesys.tools.ResponseUtil;
 
 import net.sf.json.JSONObject;
@@ -43,9 +42,7 @@ public class UserOperateController {
 	@Autowired
 	private IQueryUserInfoSV queryUserInfoSV;
 	@Autowired
-	private IQueryTopicInfoSV queryTopicInfoSV;
-	@Autowired
-	private IQueryRelationSV queryRelationSV;
+	private IQueryConjunctiveSV queryConjunctiveSV;
 	@Autowired
 	private IOperUserInfoDtlSV operUserInfoDtlSV;
 	@Autowired
@@ -79,7 +76,9 @@ public class UserOperateController {
 			resultUser = queryUserInfoSV.queryUserInfoByNameAndKey(userInfo);
 		}
 
-		if (resultUser == null) {
+		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(resultUser.getUserID());
+		
+		if (userAllInfo == null) {
 			ajaxResult.put(VoteSysConstant.Code, "01");
 			ajaxResult.put(VoteSysConstant.Message, "用户名或密码错误！");
 			ResponseUtil.write(ajaxResult, response);
@@ -89,11 +88,10 @@ public class UserOperateController {
 			ResponseUtil.write(ajaxResult, response);
 		} else {
 			HttpSession session = request.getSession();
-			session.setAttribute("userSession", resultUser);
-			session.setAttribute("userID", resultUser.getUserID());
+			session.setAttribute("userSession", userAllInfo);
 			ajaxResult.put(VoteSysConstant.Code, "00");
-			ResponseUtil.write(ajaxResult, response);
 		}
+		ResponseUtil.write(ajaxResult, response);
 	}
 
 	/**
@@ -120,10 +118,10 @@ public class UserOperateController {
 		retInfo = operUserInfoDtlSV.insertUserInfoDtl(resultUser.getUserID());
 		
 		if (retInfo) {
+			UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(resultUser.getUserID());
 			ajaxResult.put(VoteSysConstant.Code, "00");
 			HttpSession session = request.getSession();
-			session.setAttribute("userSession", resultUser);
-			session.setAttribute("userID", resultUser.getUserID());
+			session.setAttribute("userSession", userAllInfo);
 		} else {
 			ajaxResult.put(VoteSysConstant.Code, "11");
 			ajaxResult.put(VoteSysConstant.Message, "注册失败，请联系管理员");
@@ -152,11 +150,12 @@ public class UserOperateController {
 	public ModelAndView toUserInfoPage(HttpServletRequest request) {
 		ModelAndView mAndView = new ModelAndView();
 		HttpSession session = request.getSession();
-		String userID = (String) session.getAttribute("userID");
+		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
 		
 		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
 		userAllInfo.setUserSexy("00".equals(userAllInfo.getUserSexy()) ? "女":"男");
 		
+		session.removeAttribute("topicSession");
 		mAndView.addObject("userAllInfo", userAllInfo);
 		mAndView.addObject("userInfoPageUnitPath", "UserInfoDtlList.jsp");
 		mAndView.addObject("flag", "1");
@@ -173,11 +172,12 @@ public class UserOperateController {
 	public ModelAndView openUserInfoListPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mAndView = new ModelAndView();
 		HttpSession session = request.getSession();
-		String userID = (String) session.getAttribute("userID");
+		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
 		
 		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
 		userAllInfo.setUserSexy("00".equals(userAllInfo.getUserSexy()) ? "女":"男");
 		
+		session.removeAttribute("topicSession");
 		mAndView.addObject("userAllInfo", userAllInfo);
 		mAndView.addObject("userInfoPageUnitPath", "UserInfoDtlList.jsp");
 		mAndView.addObject("flag", "1");
@@ -196,10 +196,11 @@ public class UserOperateController {
 	public ModelAndView openUserInfoFormPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mAndView = new ModelAndView();
 		HttpSession session = request.getSession();
-		String userID = (String) session.getAttribute("userID");
+		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
 		
 		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
 		
+		session.removeAttribute("topicSession");
 		mAndView.addObject("userAllInfo", userAllInfo);
 		mAndView.addObject("userInfoPageUnitPath", "UserInfoDtlForm.jsp");
 		mAndView.addObject("flag", "2");
@@ -218,10 +219,11 @@ public class UserOperateController {
 	public ModelAndView openPublishTopicPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mAndView = new ModelAndView();
 		HttpSession session = request.getSession();
-		String userID = (String) session.getAttribute("userID");
+		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
 		
 		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
 		
+		session.removeAttribute("topicSession");
 		mAndView.addObject("userAllInfo", userAllInfo);
 		mAndView.addObject("userInfoPageUnitPath", "TopicMakerPage.jsp");
 		mAndView.addObject("flag", "3");
@@ -239,13 +241,22 @@ public class UserOperateController {
 	public ModelAndView openTopicListPage(HttpServletRequest request) throws Exception {
 		ModelAndView mAndView = new ModelAndView();
 		HttpSession session = request.getSession();
-		String userID = (String) session.getAttribute("userID");
-		PageBean pageBean = new PageBean(1, 10);
+		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
+		int tote = 0;
+		PageBean pageinfo = new PageBean(1, 5);
 		List<TopicInfoBean> topicList = new ArrayList<TopicInfoBean>();
+		topicList = queryConjunctiveSV.qryTopicInfoByUserID(pageinfo, userID);
+		if (!topicList.isEmpty()) {
+			tote = queryConjunctiveSV.qryTopicInfoCount(userID, null, null);
+		}
 		
+		String pageCode = PageUtil.getPagation(request.getContextPath()+"/topicChecker/getTopicInfoList.do", tote, 1, 5);
+		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
 		
-		
+		session.removeAttribute("topicSession");
+		mAndView.addObject("userAllInfo", userAllInfo);
 		mAndView.addObject("topics", topicList);
+		mAndView.addObject("pageCode", pageCode);
 		mAndView.addObject("userInfoPageUnitPath", "TopicChecker.jsp");
 		mAndView.addObject("flag", "4");
 		mAndView.setViewName("user-model/UserInfoPage");
@@ -263,10 +274,11 @@ public class UserOperateController {
 	public ModelAndView openResetKeyPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mAndView = new ModelAndView();
 		HttpSession session = request.getSession();
-		String userID = (String) session.getAttribute("userID");
+		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
 		
 		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
 		
+		session.removeAttribute("topicSession");
 		mAndView.addObject("userAllInfo", userAllInfo);
 		mAndView.addObject("userInfoPageUnitPath", "PasswordResetPage.jsp");
 		mAndView.addObject("flag", "5");
@@ -287,7 +299,7 @@ public class UserOperateController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		JSONObject ajaxResult = new JSONObject();
 		HttpSession session = request.getSession();
-		String userID = (String) session.getAttribute("userID");
+		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
 		
 		UserInfoBean userInfo = queryUserInfoSV.queryUserInfoByUserID(userID);
 		
@@ -316,7 +328,7 @@ public class UserOperateController {
 		JSONObject ajaxResult = new JSONObject();
 		HttpSession session = request.getSession();
 		boolean retCode = false;
-		String userID = (String) session.getAttribute("userID");
+		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
 		
 		UserInfoBean userInfo = queryUserInfoSV.queryUserInfoByUserID(userID);
 		

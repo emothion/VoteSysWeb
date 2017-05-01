@@ -76,7 +76,7 @@
 				<div class="panel-body">
 					<div class="row" style="margin-bottom: 15px; padding-left: 15px; padding-right: 15px;">
 						<div class="col-md-8 text-center" style="padding-top: 30px"><h1>${userSession.userName}</h1></div>
-						<div class="col-md-4 text-right"><img src="../image/user/${userAllInfo.userImg }" alt="Responsive image" class="img-circle" style="width: 140px"></div>
+						<div class="col-md-4 text-right"><img src="../image/user/${userSession.userImg }" alt="Responsive image" class="img-circle" style="width: 140px"></div>
 					</div>
 					<hr />
 					<div class="hidden" style="margin-left: 20px; margin-right: 20px;" id="pathNav">

@@ -1,4 +1,4 @@
-package com.votesys.service.query.inter;
+package com.votesys.dao.query.inter;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import com.votesys.bean.PageBean;
 import com.votesys.bean.TopicInfoBean;
 
 /**
- * @ClassName com.votesys.service.query.inter.IQueryConjunctiveSV.java
- * @Description 联合查询服务接口
+ * @ClassName com.votesys.dao.query.inter.IQueryConjunctiveDAO.java
+ * @Description 联合查询数据层接口
  */
-public interface IQueryConjunctiveSV {
+public interface IQueryConjunctiveDAO {
 
 	/**
 	 * @Function com.votesys.dao.query.inter.IQueryConjunctiveDAO::qryTopicInfoByUserID

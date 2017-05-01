@@ -73,4 +73,16 @@ public class OperTopicInfoDAOImpl implements IOperTopicInfoDAO {
 		return false;
 	}
 
+	@Override
+	public boolean updateTopicInfoExpTime(String expTime, String topicID) {
+		String sql = new String(VoteSysConstant.SQLTemplate.SQL_UPDATE_TOPIC_INFO_EXPTIME);
+		
+		int ret = jdbcTemplate.update(sql, new Object[] {expTime, topicID});
+		
+		if (ret > 0) {
+			return true;
+		}
+		return false;
+	}
+
 }

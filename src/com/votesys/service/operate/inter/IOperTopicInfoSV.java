@@ -32,4 +32,13 @@ public interface IOperTopicInfoSV {
 	 * @param topicID
 	 */
 	public boolean insertTopicExtInfo(List<String> imgName, String topicID);
+	
+	/**
+	 * @Function com.votesys.dao.operate.inter.IOperTopicInfoDAO::updateTopicInfoExpTime
+	 * @Description 修改主题的失效时间
+	 * @param expTime
+	 * @param topicID
+	 * @return
+	 */
+	public boolean updateTopicInfoExpTime(String expTime, String topicID);
 }

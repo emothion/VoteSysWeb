@@ -9,6 +9,7 @@ public class TopicExtInfoBean {
 	private String extInfoID;
 	private String topicID;
 	private String topicImg;
+	private String imgOrder;
 	private String extStatus;
 	
 	public String getExtInfoID() {
@@ -28,6 +29,12 @@ public class TopicExtInfoBean {
 	}
 	public void setTopicImg(String topicImg) {
 		this.topicImg = topicImg;
+	}
+	public String getImgOrder() {
+		return imgOrder;
+	}
+	public void setImgOrder(String imgOrder) {
+		this.imgOrder = imgOrder;
 	}
 	public String getExtStatus() {
 		return extStatus;

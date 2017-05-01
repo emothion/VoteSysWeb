@@ -9,25 +9,24 @@ public class PageBean {
 	private int page; // 第几页
 	private int pageSize; // 每页记录数
 	@SuppressWarnings("unused")
-	private int start; // 起始页
-
-
+	private int start;  // 起始个数
+	
+	
 	public PageBean(int page, int pageSize) {
 		super();
 		this.page = page;
 		this.pageSize = pageSize;
 	}
-
+	
 	public int getPage() {
 		return page;
 	}
-
 	public void setPage(int page) {
 		this.page = page;
 	}
-
+	
 	public int getPageSize() {
-		return page * pageSize+1;
+		return pageSize;
 	}
 
 	public void setPageSize(int pageSize) {
@@ -35,17 +34,6 @@ public class PageBean {
 	}
 
 	public int getStart() {
-		int startPoint;
-		if ((page-1) * pageSize == 0) {
-			startPoint = 1;
-		} else {
-			startPoint = (page-1) * pageSize+1;
-		}
-		return startPoint;
+		return (page-1)*pageSize;
 	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
 }

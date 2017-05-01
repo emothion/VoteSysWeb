@@ -24,10 +24,12 @@ public interface IOperRelationSV {
 	public boolean deleteTopicVoteRelate(String topicID);
 
 	/**
-	 * @Function com.votesys.dao.operate.inter.IOperRelationDAO::insertUserTopicRelate
+	 * @Function com.votesys.service.operate.inter.IOperRelationSV::insertUserTopicRelate
 	 * @Description 插入用户与主题的关系
 	 * @param userID
 	 * @param topicID
+	 * @param createTime
+	 * @return
 	 */
-	public boolean insertUserTopicRelate(String userID, String topicID);
+	public boolean insertUserTopicRelate(String userID, String topicID, String createTime);
 }

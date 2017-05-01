@@ -36,10 +36,16 @@ public class OperTopicInfoSVImpl implements IOperTopicInfoSV {
 	@Override
 	public boolean insertTopicExtInfo(List<String> imgName, String topicID) {
 		List<Object[]> params = new ArrayList<Object[]>();
+		int num = 0;
 		for (String string : imgName) {
-			params.add(new Object[] {topicID, string});
+			params.add(new Object[] {topicID, string, ++num});
 		}
 		return operTopicInfoDAO.insertTopicExtInfo(params);
+	}
+
+	@Override
+	public boolean updateTopicInfoExpTime(String expTime, String topicID) {
+		return operTopicInfoDAO.updateTopicInfoExpTime(expTime, topicID);
 	}
 
 }

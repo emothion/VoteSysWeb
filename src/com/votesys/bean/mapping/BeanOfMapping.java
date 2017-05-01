@@ -43,6 +43,7 @@ public class BeanOfMapping {
 		public static final String extInfoID = "EXT_INFO_ID";
 		public static final String topicID = "TOPIC_ID";
 		public static final String topicImg = "TOPIC_IMG";
+		public static final String imgOrder = "IMG_ORDER";
 		public static final String extStatus = "EXT_STATUS";
 	}
 	

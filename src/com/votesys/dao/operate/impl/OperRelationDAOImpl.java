@@ -45,10 +45,10 @@ public class OperRelationDAOImpl implements IOperRelationDAO {
 	}
 
 	@Override
-	public boolean insertUserTopicRelate(String userID, String topicID) {
+	public boolean insertUserTopicRelate(String userID, String topicID, String createTime) {
 		String sql = new String(VoteSysConstant.SQLTemplate.SQL_INSERT_UTR);
 		
-		int ret = jdbcTemplate.update(sql, new Object[] {userID, topicID});
+		int ret = jdbcTemplate.update(sql, new Object[] {userID, topicID, createTime});
 		
 		if (ret > 0) {
 			return true;

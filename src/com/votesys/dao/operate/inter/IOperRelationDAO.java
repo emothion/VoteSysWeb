@@ -27,6 +27,8 @@ public interface IOperRelationDAO {
 	 * @Description 插入用户与主题的关系
 	 * @param userID
 	 * @param topicID
+	 * @param createTime
+	 * @return
 	 */
-	public boolean insertUserTopicRelate(String userID, String topicID);
+	public boolean insertUserTopicRelate(String userID, String topicID, String createTime);
 }
