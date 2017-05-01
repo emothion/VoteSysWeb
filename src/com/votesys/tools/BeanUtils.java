@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.votesys.bean.TopicExtInfoBean;
 import com.votesys.bean.TopicInfoBean;
 import com.votesys.bean.TopicVoteRelateBean;
 import com.votesys.bean.UserInfoBean;
@@ -121,6 +122,16 @@ public class BeanUtils {
 		topicInfo.setExpTime(rs.getString(BeanOfMapping.TopicInfoBeanMapping.expTime));
 		topicInfo.setRemark(rs.getString(BeanOfMapping.TopicInfoBeanMapping.remark));
 		return topicInfo;
+	}
+	
+	public static TopicExtInfoBean setTopicInfoDtlBean(ResultSet rs) throws SQLException {
+		TopicExtInfoBean topicExtInfo = new TopicExtInfoBean();
+		topicExtInfo.setExtInfoID(rs.getString(BeanOfMapping.TopicExtInfoBeanMapping.extInfoID));
+		topicExtInfo.setTopicID(rs.getString(BeanOfMapping.TopicExtInfoBeanMapping.topicID));
+		topicExtInfo.setTopicImg(rs.getString(BeanOfMapping.TopicExtInfoBeanMapping.topicImg));
+		topicExtInfo.setImgOrder(rs.getString(BeanOfMapping.TopicExtInfoBeanMapping.imgOrder));
+		topicExtInfo.setExtStatus(rs.getString(BeanOfMapping.TopicExtInfoBeanMapping.extStatus));
+		return topicExtInfo;
 	}
 	
 	public static VoteInfoBean setVoteInfoBean(ResultSet rs) throws SQLException {

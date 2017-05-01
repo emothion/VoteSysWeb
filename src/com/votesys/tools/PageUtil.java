@@ -1,7 +1,9 @@
 package com.votesys.tools;
 
+import com.votesys.bean.TopicInfoBean;
+
 /**
- * 分页工具类
+ * 页面工具类
  * 
  * @author Administrator
  *
@@ -9,16 +11,12 @@ package com.votesys.tools;
 public class PageUtil {
 
 	/**
-	 * 获取分页代码
-	 * 
-	 * @param targetUrl
-	 *            目标地址
-	 * @param totalNum
-	 *            总记录数
-	 * @param currentPage
-	 *            当前页
-	 * @param pageSize
-	 *            每页大小
+	 * @Function com.votesys.tools.PageUtil::getPagation
+	 * @Description 获取分页代码
+	 * @param targetUrl 目标地址
+	 * @param totalNum 总记录数
+	 * @param currentPage 当前页
+	 * @param pageSize 每页大小
 	 * @return
 	 */
 	public static String getPagation(String targetUrl, int totalNum, int currentPage, int pageSize) {
@@ -55,5 +53,28 @@ public class PageUtil {
 			pageCode.append("<li><a href='" + targetUrl + "?page=" + totalPage + "'>末页</a></li>");
 		}
 		return pageCode.toString();
+	}
+	
+	/**
+	 * @Function com.votesys.tools.PageUtil::getTopicBlock
+	 * @Description 在首页绘制一个主题框
+	 * @param topicInfo
+	 * @param userName
+	 * @param mainImg
+	 * @return
+	 */
+	public static String getTopicBlock(TopicInfoBean topicInfo, String userName, String mainImg, String targetUrl) {
+		StringBuffer div = new StringBuffer("<div class='panel panel-default'>");
+		div.append("<div class='panel-body'>").append("<div class='row'>");
+		div.append("<div class='col-sm-6 col-md-4' style='width: 200px;'>");
+		div.append("<a href='").append(targetUrl).append("' class='thumbnail' style='margin: 0px;'>");
+		div.append("<img src='../image/topic/").append(mainImg).append("' alt='主图'>");
+		div.append("</a></div><div class='col-sm-6 col-md-8'>");
+		div.append("<div class='page-header' style='margin: 0px 0px 10px 0px;'>");
+		div.append("<h1 style='margin: 0px;'>").append(topicInfo.getTopicTitle());
+		div.append("<small>").append(userName).append("</small></h1>");
+		div.append("</div><p>").append(topicInfo.getTopicContent()).append("</p></div></div></div></div>");
+		
+		return div.toString();
 	}
 }

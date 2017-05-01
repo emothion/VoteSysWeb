@@ -43,4 +43,21 @@ public class QueryRelationDAOImpl implements IQueryRelationDAO {
 		return utRelList;
 	}
 
+	@Override
+	public String qryUTRelFintUserIDByTopicID(String topicID) {
+		UserTopicRelateBean userTopicRelate = new UserTopicRelateBean();
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_UTR);
+		sql.append(" AND ").append(BeanOfMapping.UserTopicRelBeanMapping.topicID).append("=?");
+		
+		jdbcTemplate.query(sql.toString(), new Object[] {topicID}, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				userTopicRelate.setUserID(rs.getString(BeanOfMapping.UserTopicRelBeanMapping.userID));
+			}
+		});
+		
+		return userTopicRelate.getUserID();
+	}
+
 }

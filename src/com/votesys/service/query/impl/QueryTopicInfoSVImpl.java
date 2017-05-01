@@ -1,9 +1,12 @@
 package com.votesys.service.query.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.votesys.bean.PageBean;
 import com.votesys.bean.TopicInfoBean;
 import com.votesys.dao.query.inter.IQueryTopicInfoDAO;
 import com.votesys.service.query.inter.IQueryTopicInfoSV;
@@ -26,6 +29,16 @@ public class QueryTopicInfoSVImpl implements IQueryTopicInfoSV {
 	@Override
 	public TopicInfoBean queryTopicInfoByTopicID(String topicID) {
 		return queryTopicInfoDAO.queryTopicInfoByTopicID(topicID);
+	}
+
+	@Override
+	public List<TopicInfoBean> queryTopicInfo(PageBean pageInfo, TopicInfoBean topicInfo) {
+		return queryTopicInfoDAO.queryTopicInfo(pageInfo, topicInfo);
+	}
+
+	@Override
+	public int queryTopicInfoTote(TopicInfoBean topicInfo) {
+		return queryTopicInfoDAO.queryTopicInfoTote(topicInfo);
 	}
 
 }

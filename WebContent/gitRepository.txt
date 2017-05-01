@@ -1,1 +1,17 @@
-https://github.com/emothion/VoteSysWeb.git
+<div class='panel panel-default'>
+	<div class='panel-body'>
+		<div class='row'>
+			<div class='col-sm-6 col-md-4' style='width: 200px;'>
+				<a href='#' class='thumbnail' style='margin: 0px;'>
+					<img src='../image/user/UserTest01-img.jpg' alt='主图'>
+				</a>
+			</div>
+			<div class='col-sm-6 col-md-8'>
+				<div class='page-header' style='margin: 0px 0px 10px 0px;'>
+				  <h1 style='margin: 0px;'>Example page header <small>Subtext for header</small></h1>
+				</div>
+				<p>https://github.com/emothion/VoteSysWeb.git </p>
+			</div>
+		</div>
+	</div>
+</div>

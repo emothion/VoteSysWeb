@@ -11,11 +11,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
+import com.votesys.bean.PageBean;
 import com.votesys.bean.TopicInfoBean;
 import com.votesys.bean.mapping.BeanOfMapping;
 import com.votesys.common.VoteSysConstant;
 import com.votesys.dao.query.inter.IQueryTopicInfoDAO;
 import com.votesys.tools.BeanUtils;
+import com.votesys.tools.StringUtils;
 
 /**
  * @ClassName com.votesys.dao.query.impl.QueryTopicInfoDAOImpl.java
@@ -68,6 +70,93 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 			return topicList.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public List<TopicInfoBean> queryTopicInfo(PageBean pageInfo, TopicInfoBean topicInfo) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_TOPIC_INFO);
+		List<TopicInfoBean> topicList = new ArrayList<TopicInfoBean>();
+		StringBuffer condition = new StringBuffer();
+		Object[] params = null;	
+		if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
+			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
+			if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
+				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
+				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%", topicInfo.getTopicStatus(), pageInfo.getStart(), pageInfo.getPageSize()};
+			}else {
+				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%", pageInfo.getStart(), pageInfo.getPageSize()};
+			}
+		}
+		if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
+			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
+			if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
+				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
+				params = new Object[] {topicInfo.getTopicStatus(), "%"+topicInfo.getTopicTitle()+"%", pageInfo.getStart(), pageInfo.getPageSize()};
+			}else {
+				params = new Object[] {topicInfo.getTopicStatus(), pageInfo.getStart(), pageInfo.getPageSize()};
+			}
+		}
+		
+		sql.append(condition).append(" ORDER BY `CREATE_TIME` DESC LIMIT ?,?");
+		if (params == null) {
+			jdbcTemplate.query(sql.toString(), new Object[] {pageInfo.getStart(), pageInfo.getPageSize()}, new RowCallbackHandler() {
+				
+				@Override
+				public void processRow(ResultSet rs) throws SQLException {
+					TopicInfoBean topicInfo = BeanUtils.setTopicInfoBean(rs);
+					topicList.add(topicInfo);
+				}
+			});
+		} else {
+			jdbcTemplate.query(sql.toString(), params, new RowCallbackHandler() {
+				
+				@Override
+				public void processRow(ResultSet rs) throws SQLException {
+					TopicInfoBean topicInfo = BeanUtils.setTopicInfoBean(rs);
+					topicList.add(topicInfo);
+				}
+			});
+		}
+		
+		if (topicList.isEmpty()) {
+			return null;
+		}
+		return topicList;
+	}
+
+	@Override
+	public int queryTopicInfoTote(TopicInfoBean topicInfo) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_TOPIC_INFO_TOTE);
+		StringBuffer condition = new StringBuffer();
+		Object[] params = null;	
+		int tote = 0;
+		if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
+			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
+			if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
+				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
+				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%", topicInfo.getTopicStatus()};
+			}else {
+				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%"};
+			}
+		}
+		if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
+			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
+			if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
+				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
+				params = new Object[] {topicInfo.getTopicStatus(), "%"+topicInfo.getTopicTitle()+"%"};
+			}else {
+				params = new Object[] {topicInfo.getTopicStatus()};
+			}
+		}
+		sql.append(condition);
+		
+		if (params == null) {
+			tote = jdbcTemplate.queryForObject(sql.toString(), Integer.class);
+		} else {
+			tote = jdbcTemplate.queryForObject(sql.toString(), params, Integer.class);
+		}
+		
+		return tote;
 	}
 
 }

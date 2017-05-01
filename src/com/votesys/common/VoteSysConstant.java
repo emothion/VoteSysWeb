@@ -20,6 +20,7 @@ public class VoteSysConstant {
 		public static final String SQL_INSERT_USER_INFO_DTL = "INSERT INTO `t_user_info_dtl`(`USER_ID`) VALUES (?)";
 		public static final String SQL_UPDATE_USER_INFO_DTL = "UPDATE `t_user_info_dtl` SET ";
 		
+		public static final String SQL_QUERY_TOPIC_INFO_TOTE = "SELECT COUNT(*) FROM `t_topic_info` WHERE 1 ";
 		public static final String SQL_QUERY_TOPIC_INFO = "SELECT * FROM `t_topic_info` WHERE 1";
 		public static final String SQL_INSERT_TOPIC_INFO = "INSERT INTO `t_topic_info`(`TOPIC_TITLE`, `TOPIC_CONTENT`, `TOPIC_STATUS`, `CREATE_TIME`, `EFF_TIME`) VALUES (";
 		public static final String SQL_UPDATE_TOPIC_INFO = "UPDATE `t_topic_info` SET `TOPIC_TITLE`=?,`TOPIC_CONTENT`=?,`TOPIC_STATUS`=?,`EFF_TIME`=? WHERE `TOPIC_ID`=?";

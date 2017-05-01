@@ -1,5 +1,8 @@
 package com.votesys.dao.query.inter;
 
+import java.util.List;
+
+import com.votesys.bean.PageBean;
 import com.votesys.bean.TopicInfoBean;
 
 /**
@@ -22,4 +25,20 @@ public interface IQueryTopicInfoDAO {
 	 * @return
 	 */
 	public TopicInfoBean queryTopicInfoByTopicID(String topicID);
+	
+	/**
+	 * @Function com.votesys.service.query.inter.IQueryTopicInfoSV::queryTopicInfo
+	 * @Description 查询主题（分页）
+	 * @param pageInfo
+	 * @return
+	 */
+	public List<TopicInfoBean> queryTopicInfo(PageBean pageInfo, TopicInfoBean topicInfo);
+	
+	/**
+	 * @Function com.votesys.dao.query.inter.IQueryTopicInfoDAO::queryTopicInfoTote
+	 * @Description 查询主题总数
+	 * @param topicInfo
+	 * @return
+	 */
+	public int queryTopicInfoTote(TopicInfoBean topicInfo);
 }
