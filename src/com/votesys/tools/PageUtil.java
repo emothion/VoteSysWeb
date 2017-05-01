@@ -27,14 +27,15 @@ public class PageUtil {
 			return "<font color=red>暂无数据！</font>";
 		}
 		StringBuffer pageCode = new StringBuffer();
-		pageCode.append("<li><a href='" + targetUrl + "?page=1'>首页</a></li>");	
 		if (currentPage == 1) {
+			pageCode.append("<li class='disabled'><a href='#'>首页</a></li>");	
 			pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
 		} else {
 			pageCode.append("<li><a href='" + targetUrl + "?page=" + (currentPage - 1) + "'>上一页</a></li>");
+			pageCode.append("<li><a href='" + targetUrl + "?page=1'>首页</a></li>");	
 		}
 
-		for (int i = currentPage - 1; i <= currentPage + 1; i++) {
+		for (int i = currentPage - 2; i <= currentPage + 2; i++) {
 			if (i < 1 || i > totalPage) {
 				continue;
 			}
@@ -48,10 +49,11 @@ public class PageUtil {
 
 		if (currentPage == totalPage) {
 			pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
+			pageCode.append("<li class='disabled'><a href='#'>末页</a></li>");
 		} else {
 			pageCode.append("<li><a href='" + targetUrl + "?page=" + (currentPage + 1) + "'>下一页</a></li>");
+			pageCode.append("<li><a href='" + targetUrl + "?page=" + totalPage + "'>末页</a></li>");
 		}
-		pageCode.append("<li><a href='" + targetUrl + "?page=" + totalPage + "'>末页</a></li>");
 		return pageCode.toString();
 	}
 }
