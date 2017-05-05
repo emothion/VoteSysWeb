@@ -22,4 +22,13 @@ public interface IOperUserInfoDtlDAO {
 	 * @param userInfoDtl
 	 */
 	public boolean updateUserInfoDtl(UserInfoDtlBean userInfoDtl);
+	
+	/**
+	 * @Function com.votesys.dao.operate.inter.IOperUserInfoDtlDAO::updateUserImg
+	 * @Description 更换头像
+	 * @param userID
+	 * @param userImg
+	 * @return
+	 */
+	public boolean updateUserImg(String userID, String userImg);
 }

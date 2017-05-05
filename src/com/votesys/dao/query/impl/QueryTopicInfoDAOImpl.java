@@ -89,11 +89,12 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 				}
 				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%", topicInfo.getTopicStatus(), pageInfo.getStart(), pageInfo.getPageSize()};
 			}else {
+				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("<>'P'");
 				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%", pageInfo.getStart(), pageInfo.getPageSize()};
 			}
 		}
 		if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
-			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
+			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus);
 			if ("P".equals(topicInfo.getTopicStatus())) {
 				condition.append("<>?");
 			} else {

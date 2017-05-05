@@ -85,4 +85,16 @@ public class OperTopicInfoDAOImpl implements IOperTopicInfoDAO {
 		return false;
 	}
 
+	@Override
+	public boolean updateTopicInfoSetStatusS(String topicID, String topicStatus) {
+		String sql = new String(VoteSysConstant.SQLTemplate.SQL_UPDATE_TOPIC_INFO_STATUS);
+		
+		int ret = jdbcTemplate.update(sql, new Object[] {topicStatus, topicID});
+
+		if (ret > 0) {
+			return true;
+		}
+		return false;
+	}
+
 }

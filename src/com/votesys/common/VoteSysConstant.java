@@ -11,7 +11,7 @@ public class VoteSysConstant {
 	public static final String CONST00001 = "retInfo";
 	public static final String radioBtn = "<div class='radio'><label><input type='radio' name='radioBtn' value='";
 	public static final String checkBox = "<div class='checkbox'><label><input type='checkbox' name='checkBoxBtn[]' value='";
-	public static final String stopBtn = "<button type='button' class='btn btn-info'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span>&nbsp;Ok</button>";
+	public static final String stopBtn = "<button type='button' class='btn btn-info' onclick='stopTopic()'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span>&nbsp;Ok</button>";
 	public static final String comNextPage = "<button type='button' class='btn btn-default btn-block' onclick='getNextCommentPage(this)'>加载下一页<span class='glyphicon glyphicon-menu-down' aria-hidden='true'></span></button>";
 	public static final String noMoreCom = "<button type='button' class='btn btn-default btn-block' onclick='getNextCommentPage(this)' disabled='disabled'>没有更多了<span class='glyphicon glyphicon-menu-down' aria-hidden='true'></span></button>";
 	
@@ -30,6 +30,7 @@ public class VoteSysConstant {
 		public static final String SQL_INSERT_TOPIC_INFO = "INSERT INTO `t_topic_info`(`TOPIC_TITLE`, `TOPIC_CONTENT`, `TOPIC_STATUS`, `CREATE_TIME`, `EFF_TIME`) VALUES (";
 		public static final String SQL_UPDATE_TOPIC_INFO = "UPDATE `t_topic_info` SET `TOPIC_TITLE`=?,`TOPIC_CONTENT`=?,`TOPIC_STATUS`=?,`EFF_TIME`=? WHERE `TOPIC_ID`=?";
 		public static final String SQL_UPDATE_TOPIC_INFO_EXPTIME = "UPDATE `t_topic_info` SET `EXP_TIME`=? WHERE `TOPIC_ID`=?";
+		public static final String SQL_UPDATE_TOPIC_INFO_STATUS = "UPDATE `t_topic_info` SET `TOPIC_STATUS`=? WHERE `TOPIC_ID`=?";
 		
 		public static final String SQL_QUERY_TOPIC_INFO_EXT = "SELECT * FROM `t_topic_info_dtl` WHERE 1";
 		public static final String SQL_INSERT_TOPIC_INFO_EXT = "INSERT INTO `t_topic_info_dtl`(`TOPIC_ID`, `TOPIC_IMG`,`IMG_ORDER`) VALUES (?,?,?)";

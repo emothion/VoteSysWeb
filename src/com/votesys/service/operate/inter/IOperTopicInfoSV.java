@@ -41,4 +41,13 @@ public interface IOperTopicInfoSV {
 	 * @return
 	 */
 	public boolean updateTopicInfoExpTime(String expTime, String topicID);
+	
+	/**
+	 * @Function com.votesys.dao.operate.inter.IOperTopicInfoDAO::updateTopicInfoSetStatusS
+	 * @Description 修改主题状态
+	 * @param topicID
+	 * @param topicStatus
+	 * @return
+	 */
+	public boolean updateTopicInfoSetStatusS(String topicID, String topicStatus);
 }

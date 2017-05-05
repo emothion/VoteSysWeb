@@ -481,3 +481,61 @@ function resertPassword() {
 		}
 	});
 }
+/**
+ * 打开头像编辑弹出窗
+ * @returns
+ */
+function openUserImgEdit() {
+	$('#upUserImg').modal('show');
+}
+
+/**设置头像上传组件
+ * 
+ */
+$(window).load(function() {
+	var options =
+	{
+		thumbBox: '.thumbBox',
+		spinner: '.spinner',
+		imgSrc: '../image/user/default-image.png'
+	}
+	var cropper = $('.imageBox').cropbox(options);
+	$('#upload-file').on('change', function(){
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			options.imgSrc = e.target.result;
+			cropper = $('.imageBox').cropbox(options);
+		}
+		reader.readAsDataURL(this.files[0]);
+		this.files = [];
+	})
+	$('#btnCrop').on('click', function(){
+		var img = cropper.getDataURL();
+		$('.cropped').html('');
+		$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+	})
+	$('#btnZoomIn').on('click', function(){
+		cropper.zoomIn();
+	})
+	$('#btnZoomOut').on('click', function(){
+		cropper.zoomOut();
+	})
+});
+
+/**
+ * 提交剪切后的头像
+ */
+function changImage() {
+	var imgCode = $(".cropped img").attr('src');
+	$.post(url+"/userDetail/changeUserImg.do", {
+		imgCode : imgCode
+	}, function (result) {
+		var result = eval('(' + result + ')');
+		if (result.Code == '00') {
+			setTimeout(function(){window.location.href=url+'/index.jsp';},3000);
+		} else if (result.Code == '11') {
+			$("#errMsg").text(result.retMsg);
+			$('#alertModel').modal('show');
+		}
+	});
+}

@@ -48,4 +48,9 @@ public class OperTopicInfoSVImpl implements IOperTopicInfoSV {
 		return operTopicInfoDAO.updateTopicInfoExpTime(expTime, topicID);
 	}
 
+	@Override
+	public boolean updateTopicInfoSetStatusS(String topicID, String topicStatus) {
+		return operTopicInfoDAO.updateTopicInfoSetStatusS(topicID, topicStatus);
+	}
+
 }

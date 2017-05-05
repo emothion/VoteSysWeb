@@ -1,0 +1,83 @@
+@charset "utf-8";
+.cropped {
+	background-color: white;
+	width: 140px;
+	border: 1px #ddd solid;
+	height: 160px;
+	padding-top: 5px;
+	box-shadow: 0px 0px 12px #ddd;
+	font-family: 微软雅黑;
+	font-size: 12px;
+	color: #bbb
+}
+.cropped-left {
+	position: absolute;
+	right: 30px;
+	top: 30px;
+	width: 150px;
+	border: 1px #ddd solid;
+	height: 360px;
+	padding: 4px;
+	box-shadow: 0px 0px 12px #ddd;
+	text-align: center;
+}
+.imageBox {
+	position: relative;
+	height: 360px;
+	width: 360px;
+	border: 1px solid #aaa;
+	background: #fff;
+	overflow: hidden;
+	background-repeat: no-repeat;
+	cursor: move;
+	box-shadow: 4px 4px 12px #B0B0B0; 
+}
+.imageBox .thumbBox {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 180px;
+	height: 180px;
+	margin-top: -90px;
+	margin-left: -90px;
+	box-sizing: border-box;
+	border: 1px solid rgb(102, 102, 102);
+	box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+	background: none repeat scroll 0% 0% transparent;
+}
+.imageBox .spinner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	line-height: 400px;
+	background: rgba(0,0,0,0.7);
+}
+
+/*选择文件上传*/
+.new-contentarea {
+	overflow:hidden;
+	margin: 20px auto 20px;
+	position:relative;
+	float:left;
+}
+
+.new-contentarea input[type=file] {
+	width:100px;
+	height:60px;
+	background:#333;
+	margin: 0 auto;
+	position:absolute;
+	right:50%;
+	margin-right:-94px;
+	top:0;
+	right/*\**/:0px\9;
+	margin-right/*\**/:0px\9;
+	width/*\**/:10px\9;
+	opacity:0;
+	filter:alpha(opacity=0);
+	z-index:2;
+}
+/*www.jq22.com*/

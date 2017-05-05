@@ -33,6 +33,7 @@
 			<th class="text-center">名称</th>
 			<th class="text-center">创建时间</th>
 			<th class="text-center" style="width: 10%">状态</th>
+			<th class="text-center" style="width: 10%">操作</th>
 		</tr>
 		<c:forEach var="topic" items="${topics }" varStatus="status">
 			<tr>
@@ -40,6 +41,10 @@
 				<td>${topic.topicTitle}</td>
 				<td>${topic.createTime}</td>
 				<td>${topic.topicStatus }</td>
+				<td>
+					<button type="button" class='btn btn-warning btn-xs ${topic.topicStatus=="P" ? "hidden":"" }'><span class="glyphicon glyphicon-export" aria-hidden="true"></span>&nbsp;导出</button>
+					<button type="button" class='btn btn-warning btn-xs ${topic.topicStatus=="P" ? "":"hidden" }'><span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;发布</button>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

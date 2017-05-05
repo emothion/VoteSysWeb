@@ -24,6 +24,7 @@ import com.votesys.qbo.bean.TrineUTCBean;
 import com.votesys.qbo.bean.UserAllInfoBean;
 import com.votesys.service.operate.inter.IOperCommentSV;
 import com.votesys.service.operate.inter.IOperRelationSV;
+import com.votesys.service.operate.inter.IOperTopicInfoSV;
 import com.votesys.service.query.inter.IQueryCommentSV;
 import com.votesys.service.query.inter.IQueryConjunctiveSV;
 import com.votesys.service.query.inter.IQueryRelationSV;
@@ -63,6 +64,8 @@ public class TopicDetailController {
 	private IOperCommentSV operCommentSV;
 	@Autowired
 	private IOperRelationSV operRelationSV;
+	@Autowired
+	private IOperTopicInfoSV operTopicInfoSV;
 	
 	/**
 	 * @Function com.votesys.controller.TopicDetailController::initTopicDetail
@@ -156,6 +159,9 @@ public class TopicDetailController {
 		}
 		
 		session.setAttribute("topicSession", topicInfo);
+		if ("S".equals(topicInfo.getTopicStatus())) {
+			topicInfo.setTopicTitle("<del>"+topicInfo.getTopicTitle()+"</del>");
+		}
 		mAndView.addObject("topic", topicInfo);
 		mAndView.addObject("Images", topicExtList);
 		mAndView.addObject("VoteOptions", voteList); 
@@ -312,6 +318,32 @@ public class TopicDetailController {
 			ajaxResult.put(VoteSysConstant.Code, "00");
 			ajaxResult.put("UP", comment.getUpNum());
 			ajaxResult.put("SUB", comment.getSubNum());
+		} else {
+			ajaxResult.put(VoteSysConstant.Code, "11");
+			ajaxResult.put(VoteSysConstant.Message, "操作失败，请重试...");
+		}
+		
+		ResponseUtil.write(ajaxResult, response);
+	}
+	
+	/**
+	 * @Function com.votesys.controller.TopicDetailController::stopTopic
+	 * @Description 结束投票操作
+	 * @param request
+	 * @param response
+	 * @throws Exception 
+	 */
+	@RequestMapping("stopTopic")
+	public void stopTopic(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		JSONObject ajaxResult = new JSONObject();
+		HttpSession session = request.getSession();
+		String topicID = ((TopicInfoBean) session.getAttribute("topicSession")).getTopicID();
+		
+		boolean ret = operTopicInfoSV.updateTopicInfoSetStatusS(topicID, "S");
+		
+		if (ret) {
+			ajaxResult.put(VoteSysConstant.Code, "00");
+			ajaxResult.put(VoteSysConstant.Message, "操作成功，稍后会自动跳转...");
 		} else {
 			ajaxResult.put(VoteSysConstant.Code, "11");
 			ajaxResult.put(VoteSysConstant.Message, "操作失败，请重试...");

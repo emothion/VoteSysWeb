@@ -38,7 +38,7 @@
 				<div class="panel-body">
 					<div class="page-header">
 						<h1>${topic.topicTitle }
-							<small>${author.userName }</small>
+							<small>${author.userName }</small> 
 							${stopBtn }
 						</h1>
 					</div>

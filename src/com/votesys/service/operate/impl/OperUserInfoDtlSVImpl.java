@@ -28,4 +28,9 @@ public class OperUserInfoDtlSVImpl implements IOperUserInfoDtlSV {
 		return operUserInfoDtlDAO.updateUserInfoDtl(userInfoDtl);
 	}
 
+	@Override
+	public boolean updateUserImg(String userID, String userImg) {
+		return operUserInfoDtlDAO.updateUserImg(userID, userImg);
+	}
+
 }

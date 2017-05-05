@@ -43,7 +43,7 @@
 						<div class="panel-body">
 							<div class="input-group input-group-sm">
 								<span class="input-group-addon" id="sizing-addon3">主题</span>
-								<input type="text" class="form-control" id="topicTitle" value="${topicSession.topicTitle }" placeholder="主题关键词" aria-describedby="sizing-addon3">
+								<input type="text" class="form-control" name="topicTitle" id="topicTitle" value="${topicSession.topicTitle }" placeholder="主题关键词" aria-describedby="sizing-addon3">
 							</div>
 							<div class="row form-group text-center">
 								<div class="col-sm-6">

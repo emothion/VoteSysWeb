@@ -108,3 +108,18 @@ function oppose(comID, obj) {
 function endorse(comID, obj) {
 	submitOpposerOrEndorse(comID, 'E', obj);
 }
+
+function stopTopic() {
+	$.post(url+"/topicDetail/stopTopic.do", {}, 
+			function(result) {
+		var result = eval('(' + result + ')');
+		if (result.Code == '00') {
+			$("#sucMsg").text("操作成功");
+			$('#successModel').modal('show');
+			setTimeout(function(){window.location.href=url+'/index.jsp';},3000);
+		} else if (result.Code == '11'){
+			$("#errMsg").text(result.retMsg);
+			$('#alertModel').modal('show');
+		}
+	});
+}

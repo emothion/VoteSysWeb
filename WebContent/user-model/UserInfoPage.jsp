@@ -6,6 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户详细页</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/user-model/css/jedate.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/user-model/css/fileinput.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/user-model/css/imgstyle.css" />
 <script src="${pageContext.request.contextPath}/bootstrap3/js/jquery-1.11.2.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/Common.js"></script>
 <script src="${pageContext.request.contextPath}/user-model/js/distpicker.data.js"></script>
@@ -13,11 +16,10 @@
 <script src="${pageContext.request.contextPath}/user-model/js/distpicker.js"></script>
 <script src="${pageContext.request.contextPath}/user-model/js/fileinput.js"></script>
 <script src="${pageContext.request.contextPath}/user-model/js/fileinput_locale_zh.js"></script>
-<script src="${pageContext.request.contextPath}/bootstrap3/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/bootstrap3/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/user-model/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/user-model/js/jquery.jedate.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/user-model/css/jedate.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/user-model/css/fileinput.css" />
+<script src="${pageContext.request.contextPath}/user-model/js/cropbox.js"></script>
 <%
 	if (session.getAttribute("userSession") == null) {
 		response.sendRedirect(request.getContextPath() + "/index.jsp");
@@ -76,7 +78,11 @@
 				<div class="panel-body">
 					<div class="row" style="margin-bottom: 15px; padding-left: 15px; padding-right: 15px;">
 						<div class="col-md-8 text-center" style="padding-top: 30px"><h1>${userSession.userName}</h1></div>
-						<div class="col-md-4 text-right"><img src="../image/user/${userSession.userImg }" alt="Responsive image" class="img-circle" style="width: 140px"></div>
+						<div class="col-md-4 text-right">
+							<a href="javascript:openUserImgEdit()" style="width: 140px; height: 140px">
+								<img src="../image/user/${userSession.userImg }" alt="Responsive image" class="img-circle" style="width: 140px">
+							</a>
+						</div>
 					</div>
 					<hr />
 					<div class="hidden" style="margin-left: 20px; margin-right: 20px;" id="pathNav">
@@ -113,6 +119,62 @@
 </div>
 <!-- 脚注 结束 -->
 <jsp:include page="/CommoPage/AlertModel.jsp"></jsp:include>
+
+<div class="modal fade" id="upUserImg" tabindex="-1" role="dialog" aria-labelledby="upUserImgLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="upUserImgLabel">修改头像</h4>
+			</div>
+			<div class="modal-body">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="container" style="width: 100%">
+							<div class="imageBox">
+								<div class="thumbBox"></div>
+								<div class="spinner" style="display: none">Loading...</div>
+							</div>
+						</div>
+						<div class="cropped-left">
+							<div class="cropped">
+							</div>
+							<div class="new-contentarea">
+								<a class="btn btn-warning" href="javascript:void(0)" role="button" style="width: 100px;margin-left: 20px;">
+									上传图像
+								</a>
+								<input type="file" name="upload-file" id="upload-file"/>
+							</div>
+							<div style="margin-bottom: 5px">
+								<button type="button" id="btnCrop" class="btn btn-warning">
+									<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+									裁剪
+								</button>
+							</div>
+							<div style="margin-bottom: 5px">
+								<button type="button" id="btnZoomIn" class="btn btn-warning">
+									<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
+									放大
+								</button>
+							</div>
+							<div>
+								<button type="button" id="btnZoomOut" class="btn btn-warning">
+									<span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span>
+									缩小
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" onclick="changImage()">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 </body>
 
 <script type="text/javascript">

@@ -66,4 +66,18 @@ public class OperUserInfoDtlDAOImpl implements IOperUserInfoDtlDAO {
 		return true;
 	}
 
+	@Override
+	public boolean updateUserImg(String userID, String userImg) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_UPDATE_USER_INFO_DTL);
+		sql.append(BeanOfMapping.UserInfoDtlBeanMapping.userImg).append("=?");
+		sql.append(" WHERE ").append(BeanOfMapping.UserInfoDtlBeanMapping.userID).append("=?");
+		
+		int ret = jdbcTemplate.update(sql.toString(), new Object[] {userImg, userID});
+		
+		if (ret > 0) {
+			return true;
+		}
+		return false;
+	}
+
 }

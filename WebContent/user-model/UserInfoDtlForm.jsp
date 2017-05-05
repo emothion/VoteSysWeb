@@ -72,6 +72,7 @@ pageEncoding="UTF-8"%>
 		<div class="col-sm-offset-2"></div>
 	</div>
 	<div class="form-group text-center" style="padding-left: 20%; padding-right: 20%;">
-		<button type="submit" class="btn btn-info btn-block">提交</button>
+		<button type="button" class="btn btn-info btn-lg" onclick="openUserImgEdit()" style="width: 48%">编辑头像</button>
+		<button type="submit" class="btn btn-info btn-lg" style="width: 48%">提交</button>
 	</div>
 </form>
