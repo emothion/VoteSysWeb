@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.votesys.bean.PageBean;
 import com.votesys.bean.TopicInfoBean;
 import com.votesys.dao.query.inter.IQueryConjunctiveDAO;
+import com.votesys.qbo.bean.TrineUTCBean;
 import com.votesys.service.query.inter.IQueryConjunctiveSV;
 
 /**
@@ -35,6 +36,21 @@ public class QueryConjunctiveSVImpl implements IQueryConjunctiveSV {
 	public List<TopicInfoBean> qryTopicInfoWithUserIDByCondition(PageBean pageInfo, TopicInfoBean topicInfo,
 			String userID) {
 		return queryConjunctiveDAO.qryTopicInfoWithUserIDByCondition(pageInfo, topicInfo, userID);
+	}
+
+	@Override
+	public List<TrineUTCBean> qryCommentByTopicID(String topicID, PageBean pageInfo) {
+		return queryConjunctiveDAO.qryCommentByTopicID(topicID, pageInfo);
+	}
+
+	@Override
+	public List<TrineUTCBean> qryCommentByComID(String comID) {
+		return queryConjunctiveDAO.qryCommentByComID(comID);
+	}
+
+	@Override
+	public int qryCommentCountByTopicID(String topicID) {
+		return queryConjunctiveDAO.qryCommentCountByTopicID(topicID);
 	}
 
 }

@@ -78,4 +78,34 @@ public class BeanOfMapping {
 		public static final String topicID = "TOPIC_ID";
 		public static final String createTime = "CREATE_TIME";
 	}
+	
+	public class UserVoteRelBeanMapping {
+		public static final String relateID = "RELATE_ID";
+		public static final String userID = "USER_ID";
+		public static final String topicID = "TOPIC_ID";
+		public static final String voteID = "VOTE_ID";
+		public static final String createTime = "CREATE_TIME";
+	}
+	
+	public class TrineUTCBeanMapping {
+		public static final String topicID = "TOPIC_ID";
+		public static final String userID = "USER_ID";
+		public static final String userName = "USER_NAME";
+		public static final String userImg = "USER_IMG";
+		public static final String comID = "COM_ID";
+		public static final String comContent = "COM_CONTENT";
+		public static final String comStatus = "COM_STATUS";
+		public static final String createTime = "CREATE_TIME";
+		public static final String subNum = "SUB_NUM";
+		public static final String upNum = "UP_NUM";
+	}
+	
+	public class CommentBeanMapping {
+		public static final String comID = "COM_ID";
+		public static final String comContent = "COM_CONTENT";
+		public static final String comStatus = "COM_STATUS";
+		public static final String createTime = "CREATE_TIME";
+		public static final String subNum = "SUB_NUM";
+		public static final String upNum = "UP_NUM";
+	}
 }

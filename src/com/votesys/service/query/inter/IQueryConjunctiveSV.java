@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.votesys.bean.PageBean;
 import com.votesys.bean.TopicInfoBean;
+import com.votesys.qbo.bean.TrineUTCBean;
 
 /**
  * @ClassName com.votesys.service.query.inter.IQueryConjunctiveSV.java
@@ -39,4 +40,28 @@ public interface IQueryConjunctiveSV {
 	 * @return
 	 */
 	public List<TopicInfoBean> qryTopicInfoWithUserIDByCondition(PageBean pageInfo, TopicInfoBean topicInfo, String userID);
+	
+	/**
+	 * @Function com.votesys.dao.query.inter.IQueryConjunctiveDAO::qryCommentByTopicID
+	 * @Description 通过主题编号查询主题编号，用户编号，用户头像，用户名字，评论内容等
+	 * @param topicID
+	 * @return
+	 */
+	public List<TrineUTCBean> qryCommentByTopicID(String topicID, PageBean pageInfo);
+	
+	/**
+	 * @Function com.votesys.dao.query.inter.IQueryConjunctiveDAO::qryCommentByComID
+	 * @Description 查询具体的单条评论信息
+	 * @param comID
+	 * @return
+	 */
+	public List<TrineUTCBean> qryCommentByComID(String comID);
+	
+	/**
+	 * @Function com.votesys.dao.query.inter.IQueryConjunctiveDAO::qryCommentCountByTopicID
+	 * @Description 查询某一主题下的评论总数
+	 * @param topicID
+	 * @return
+	 */
+	public int qryCommentCountByTopicID(String topicID);
 }

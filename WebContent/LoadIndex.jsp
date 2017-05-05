@@ -9,44 +9,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap3/css/bootstrap.min.css" />
 <script src="${pageContext.request.contextPath}/bootstrap3/js/jquery-1.11.2.min.js"></script>
 <script src="${pageContext.request.contextPath}/bootstrap3/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/js/scollLoad.js"></script>
 <script src="${pageContext.request.contextPath}/js/LoadIndex.js"></script>
 <script src="${pageContext.request.contextPath}/js/Common.js"></script>
-<script type="text/javascript">
-$(function() {
-  var i = ${userSession.userID!=null?true:false};
-  if(i){
-    $("#login").hide();
-    $("#logon").hide();
-    $("#logout").show();
-  }else{
-    $("#login").show();
-    $("#logon").show();
-    $("#logout").hide();
-  }
-});
-
-var page=1;
-var flag=true;
-
-function xmlHttpGetTopic(page) {
-	$.post("${pageContext.request.contextPath}/index/ajaxGetTopic.do", {
-		page : page
-	}, function(result) {
-		var result = eval('(' + result + ')');
-		if (result.Code == '00') {
-			insertcode(result);
-		} else if (result.Code == '01') {
-			$("#page_tag_stop").removeClass("hidden");
-			$("#page_tag_load").addClass("hidden");
-			flag = false;
-		} else if (result.Code == '11') {
-			$("#errMsg").text(result.retMsg);
-			$('#alertModel').modal('show');
-		}
-	});
-}
-</script>
 </head>
 
 <body style="background-color: #DCDCDC; height: 100%">
@@ -117,83 +81,6 @@ function xmlHttpGetTopic(page) {
 </div>
 <!-- 主体内容 结束 -->
 
-<!-- 登陆弹出窗 开始 -->
-<div class="modal fade" id="LogonModal" tabindex="-1" role="dialog" aria-labelledby="logonModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <form id="logonForm">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="logonModalLabel">
-	                     请登陆
-	        </h4>
-	      </div>
-	      <div class="modal-body">
-			  <div class="form-group">
-			    <label for="userName">用户名</label>
-			    <input type="text" class="form-control" id="userName" name="userName" placeholder="Username">
-			  </div>
-			  <div class="form-group">
-			    <label for="userKey">密码</label>
-			    <input type="password" class="form-control" id="userKey" name="userKey" placeholder="Password">
-			  </div>
-			  <div class="alert alert-danger hidden" role="alert" id = "logonAlert">
-	            <strong>错误!</strong>
-	            <p>用户名或密码错误！</p>
-	          </div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">稍后登入</button>
-	        <button type="button" class="btn btn-primary" onclick="Logon('${pageContext.request.contextPath}')">现在登入</button>
-	      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!-- 登陆弹出窗 结束 -->
-
-<!-- 注册弹出窗 开始 -->
-<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <form id="loginForm">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="loginModalLabel">
-	        	注册
-	        </h4>
-	      </div>
-	      <div class="modal-body" id = register>
-			  <div class="form-group" style="padding-bottom: 5px">
-  				<input type="text" class="form-control" id="userNameA" name="userNameA" placeholder="请输入昵称..." data-toggle="tooltip" data-placement="right">
-			  </div>
-			  <div class="form-group" style="padding-bottom: 5px">
-  				<input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="请输入邮箱...">
-			  </div>
-			  <div class="form-group" style="padding-bottom: 5px">
-  				<input type="text" class="form-control" id="userPhone" name="userPhone" placeholder="请输入电话..." data-toggle="tooltip" data-placement="right">
-			  </div>
-			  <div class="form-group" style="padding-bottom: 5px">
-  				<input type="password" class="form-control" id="userKeyA" name="userKey" placeholder="请设置密码...">
-			  </div>
-			  <div class="form-group">
-  				<input type="password" class="form-control" id="userKeyB" name="userKeyA" placeholder="重复密码...">
-			  </div>
-			  <div class="alert alert-danger hidden" role="alert" id = "loginAlert">
-	            <strong>错误!</strong>
-	            <p></p>
-	          </div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-	        <button type="button" class="btn btn-primary" onclick="Login('${pageContext.request.contextPath}')">注册</button>
-	      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!-- 注册弹出窗 结束 -->
-
 <!-- 脚注 开始 -->
 <div class="container">
   <div class="row">
@@ -201,7 +88,6 @@ function xmlHttpGetTopic(page) {
       <div class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
           <div class="navbar-header">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/manager-model/login.jsp">管理界面</a>
           </div>
           <div class="col-xs-offset-4">
             <div id="navbar" class="navbar-center">
@@ -214,7 +100,43 @@ function xmlHttpGetTopic(page) {
   </div>
 </div>
 <!-- 脚注 结束 -->
+<jsp:include page="/CommoPage/LognOnAndIn.jsp"></jsp:include>
 
 <jsp:include page="/CommoPage/AlertModel.jsp"></jsp:include>
+<script type="text/javascript">
+$(function() {
+  var i = ${userSession.userID!=null?true:false};
+  if(i){
+    $("#login").hide();
+    $("#logon").hide();
+    $("#logout").show();
+  }else{
+    $("#login").show();
+    $("#logon").show();
+    $("#logout").hide();
+  }
+});
+
+var page=1;
+var flag=true;
+
+function xmlHttpGetTopic(page) {
+	$.post("${pageContext.request.contextPath}/index/ajaxGetTopic.do", {
+		page : page
+	}, function(result) {
+		var result = eval('(' + result + ')');
+		if (result.Code == '00') {
+			insertcode(result);
+			flag = true;
+		} else if (result.Code == '01') {
+			$("#page_tag_stop").removeClass("hidden");
+			$("#page_tag_load").addClass("hidden");
+		} else if (result.Code == '11') {
+			$("#errMsg").text(result.retMsg);
+			$('#alertModel').modal('show');
+		}
+	});
+}
+</script>
 </body>
 </html>

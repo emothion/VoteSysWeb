@@ -53,18 +53,20 @@ public class IndexController {
 		List<String> topicDivList = new ArrayList<String>();
 		List<TopicInfoBean> topicList = new ArrayList<TopicInfoBean>();
 		
-		if (topicCondition == null) {
+		if (topicCondition==null) {
 			topicList = queryTopicInfoSV.queryTopicInfo(pageInfo, new TopicInfoBean());
 		} else {
 			topicList = queryTopicInfoSV.queryTopicInfo(pageInfo, topicCondition);
 		}
+		
+		String url = request.getContextPath() + "/topicDetail/getTopicDetail.do?topicID=";
 		
 		if (!topicList.isEmpty()) {
 			for (TopicInfoBean topicInfo : topicList) {
 				TopicExtInfoBean topicExtInfo = queryTopicInfoExtSV.queryMainImageByTopicID(topicInfo.getTopicID());
 				String userID = queryRelationSV.qryUTRelFintUserIDByTopicID(topicInfo.getTopicID());
 				UserInfoBean userInfo = queryUserInfoSV.queryUserInfoByUserID(userID);
-				String div = PageUtil.getTopicBlock(topicInfo, userInfo.getUserName(), topicExtInfo.getTopicImg(), "#");
+				String div = PageUtil.getTopicBlock(topicInfo, userInfo.getUserName(), topicExtInfo.getTopicImg(), url);
 				topicDivList.add(div);
 			}
 		}
@@ -96,12 +98,14 @@ public class IndexController {
 				topicList = queryTopicInfoSV.queryTopicInfo(pageInfo, topicCondition);
 			}
 			
+			String url = request.getContextPath() + "/topicDetail/getTopicDetail.do?topicID=";
+			
 			if (!topicList.isEmpty()) {
 				for (TopicInfoBean topicInfo : topicList) {
 					TopicExtInfoBean topicExtInfo = queryTopicInfoExtSV.queryMainImageByTopicID(topicInfo.getTopicID());
 					String userID = queryRelationSV.qryUTRelFintUserIDByTopicID(topicInfo.getTopicID());
 					UserInfoBean userInfo = queryUserInfoSV.queryUserInfoByUserID(userID);
-					div.append(PageUtil.getTopicBlock(topicInfo, userInfo.getUserName(), topicExtInfo.getTopicImg(), "#"));
+					div.append(PageUtil.getTopicBlock(topicInfo, userInfo.getUserName(), topicExtInfo.getTopicImg(), url));
 				}
 			}
 			

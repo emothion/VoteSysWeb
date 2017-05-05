@@ -81,7 +81,12 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 		if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
 			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
 			if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
-				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
+				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus);
+				if ("P".equals(topicInfo.getTopicStatus())) {
+					condition.append("<>?");
+				} else {
+					condition.append("=?");
+				}
 				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%", topicInfo.getTopicStatus(), pageInfo.getStart(), pageInfo.getPageSize()};
 			}else {
 				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%", pageInfo.getStart(), pageInfo.getPageSize()};
@@ -89,6 +94,11 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 		}
 		if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
 			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
+			if ("P".equals(topicInfo.getTopicStatus())) {
+				condition.append("<>?");
+			} else {
+				condition.append("=?");
+			}
 			if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
 				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
 				params = new Object[] {topicInfo.getTopicStatus(), "%"+topicInfo.getTopicTitle()+"%", pageInfo.getStart(), pageInfo.getPageSize()};
@@ -97,8 +107,9 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 			}
 		}
 		
-		sql.append(condition).append(" ORDER BY `CREATE_TIME` DESC LIMIT ?,?");
 		if (params == null) {
+			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("<>'P'").
+			append(" ORDER BY `CREATE_TIME` DESC LIMIT ?,?");
 			jdbcTemplate.query(sql.toString(), new Object[] {pageInfo.getStart(), pageInfo.getPageSize()}, new RowCallbackHandler() {
 				
 				@Override
@@ -108,6 +119,7 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 				}
 			});
 		} else {
+			sql.append(condition).append(" ORDER BY `CREATE_TIME` DESC LIMIT ?,?");
 			jdbcTemplate.query(sql.toString(), params, new RowCallbackHandler() {
 				
 				@Override
@@ -136,6 +148,7 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
 				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%", topicInfo.getTopicStatus()};
 			}else {
+				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("<>'P'");
 				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%"};
 			}
 		}
@@ -148,11 +161,13 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 				params = new Object[] {topicInfo.getTopicStatus()};
 			}
 		}
-		sql.append(condition);
 		
 		if (params == null) {
+			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("<>'P'");
+			sql.append(condition);
 			tote = jdbcTemplate.queryForObject(sql.toString(), Integer.class);
 		} else {
+			sql.append(condition);
 			tote = jdbcTemplate.queryForObject(sql.toString(), params, Integer.class);
 		}
 		

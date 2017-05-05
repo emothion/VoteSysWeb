@@ -4,14 +4,18 @@ import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.votesys.bean.CommentBean;
 import com.votesys.bean.TopicExtInfoBean;
 import com.votesys.bean.TopicInfoBean;
 import com.votesys.bean.TopicVoteRelateBean;
 import com.votesys.bean.UserInfoBean;
 import com.votesys.bean.UserTopicRelateBean;
+import com.votesys.bean.UserVoteRelateBean;
 import com.votesys.bean.VoteInfoBean;
+import com.votesys.bean.VoteLaunchBean;
 import com.votesys.bean.mapping.BeanOfMapping;
 import com.votesys.common.VoteSysConstant;
+import com.votesys.qbo.bean.TrineUTCBean;
 import com.votesys.qbo.bean.UserAllInfoBean;
 
 /**
@@ -145,6 +149,17 @@ public class BeanUtils {
 		return voteInfo;
 	}
 	
+	public static VoteLaunchBean setVoteLaunchBean(ResultSet rs) throws SQLException {
+		VoteLaunchBean voteLaunch = new VoteLaunchBean();
+		voteLaunch.setLaunchID(rs.getString(BeanOfMapping.VoteLaunchBeanMapping.launchID));
+		voteLaunch.setTopicID(rs.getString(BeanOfMapping.VoteLaunchBeanMapping.topicID));
+		voteLaunch.setVoteStyle(rs.getString(BeanOfMapping.VoteLaunchBeanMapping.voteStyle));
+		voteLaunch.setVoteStop(rs.getString(BeanOfMapping.VoteLaunchBeanMapping.voteStop));
+		voteLaunch.setExpDate(rs.getString(BeanOfMapping.VoteLaunchBeanMapping.expDate));
+		voteLaunch.setRemarks(rs.getString(BeanOfMapping.VoteLaunchBeanMapping.remarks));
+		return voteLaunch;
+	}
+	
 	public static TopicVoteRelateBean setTopicVoteRelBean(ResultSet rs) throws SQLException {
 		TopicVoteRelateBean tvRel = new TopicVoteRelateBean();
 		tvRel.setRelateID(rs.getString(BeanOfMapping.TopicVoteRelBeanMapping.relateID));
@@ -161,5 +176,41 @@ public class BeanUtils {
 		utRel.setTopicID(rs.getString(BeanOfMapping.UserTopicRelBeanMapping.topicID));
 		utRel.setCreateTime(rs.getString(BeanOfMapping.UserTopicRelBeanMapping.createTime));
 		return utRel;
+	}
+	
+	public static UserVoteRelateBean setUserVoteRelateBean(ResultSet rs) throws SQLException {
+		UserVoteRelateBean uvRel = new UserVoteRelateBean();
+		uvRel.setRelateID(rs.getString(BeanOfMapping.UserTopicRelBeanMapping.relateID));
+		uvRel.setUserID(rs.getString(BeanOfMapping.UserTopicRelBeanMapping.userID));
+		uvRel.setTopicID(rs.getString(BeanOfMapping.UserTopicRelBeanMapping.topicID));
+		uvRel.setVoteID(rs.getString(BeanOfMapping.UserVoteRelBeanMapping.voteID));
+		uvRel.setCreateTime(rs.getString(BeanOfMapping.UserTopicRelBeanMapping.createTime));
+		return uvRel;
+	}
+	
+	public static TrineUTCBean setTrineUTCBean(ResultSet rs) throws SQLException {
+		TrineUTCBean trineUTC = new TrineUTCBean();
+		trineUTC.setTopicID(rs.getString(BeanOfMapping.TrineUTCBeanMapping.topicID));
+		trineUTC.setUserID(rs.getString(BeanOfMapping.TrineUTCBeanMapping.userID));
+		trineUTC.setUserName(rs.getString(BeanOfMapping.TrineUTCBeanMapping.userName));
+		trineUTC.setUserImg(rs.getString(BeanOfMapping.TrineUTCBeanMapping.userImg));
+		trineUTC.setComID(rs.getString(BeanOfMapping.TrineUTCBeanMapping.comID));
+		trineUTC.setComContent(rs.getString(BeanOfMapping.TrineUTCBeanMapping.comContent));
+		trineUTC.setComStatus(rs.getString(BeanOfMapping.TrineUTCBeanMapping.comStatus));
+		trineUTC.setSubNum(rs.getInt(BeanOfMapping.TrineUTCBeanMapping.subNum));
+		trineUTC.setUpNum(rs.getInt(BeanOfMapping.TrineUTCBeanMapping.upNum));
+		trineUTC.setCreateTime(rs.getString(BeanOfMapping.TrineUTCBeanMapping.createTime));
+		return trineUTC;
+	}
+	
+	public static CommentBean setCommentBean(ResultSet rs) throws SQLException {
+		CommentBean comment = new CommentBean();
+		comment.setComID(rs.getString(BeanOfMapping.CommentBeanMapping.comID));
+		comment.setComContent(rs.getString(BeanOfMapping.CommentBeanMapping.comContent));
+		comment.setComStatus(rs.getString(BeanOfMapping.CommentBeanMapping.comStatus));
+		comment.setSubNum(rs.getInt(BeanOfMapping.CommentBeanMapping.subNum));
+		comment.setUpNum(rs.getInt(BeanOfMapping.CommentBeanMapping.upNum));
+		comment.setCreateTime(rs.getString(BeanOfMapping.CommentBeanMapping.createTime));
+		return comment;
 	}
 }

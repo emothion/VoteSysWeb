@@ -30,4 +30,14 @@ public class QueryRelationSVImpl implements IQueryRelationSV {
 		return queryRelationDAO.qryUTRelFintUserIDByTopicID(topicID);
 	}
 
+	@Override
+	public int qryVoteOpitonGetCount(String voteID) {
+		return queryRelationDAO.qryVoteOpitonGetCount(voteID);
+	}
+
+	@Override
+	public boolean qryUserExistUserVote(String userID, String topicID) {
+		return queryRelationDAO.qryUserExistUserVote(userID, topicID);
+	}
+
 }

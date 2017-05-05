@@ -32,4 +32,32 @@ public interface IOperRelationSV {
 	 * @return
 	 */
 	public boolean insertUserTopicRelate(String userID, String topicID, String createTime);
+	
+	/**
+	 * @Function com.votesys.dao.operate.inter.IOperRelationDAO::insertUserComRelate
+	 * @Description 插入用户与评论的关系
+	 * @param userID
+	 * @param comID
+	 * @return
+	 */
+	public boolean insertUserComRelate(String userID, String comID);
+	
+	/**
+	 * @Function com.votesys.dao.operate.inter.IOperRelationDAO::insertTopicComRelate
+	 * @Description 插入主题与评论的关系
+	 * @param topicID
+	 * @param comID
+	 * @return
+	 */
+	public boolean insertTopicComRelate(String topicID, String comID);
+	
+	/**
+	 * @Function com.votesys.service.operate.inter.IOperRelationSV::insertUserVoteRelate
+	 * @Description 插入用户与投票的关系（相当于计一票）
+	 * @param userID
+	 * @param topicID
+	 * @param vote
+	 * @return
+	 */
+	public boolean insertUserVoteRelate(String userID, String topicID, String[] votes);
 }

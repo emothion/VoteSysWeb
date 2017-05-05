@@ -9,6 +9,11 @@ public class VoteSysConstant {
 	public static final String Code = "Code";
 	public static final String Message = "retMsg";
 	public static final String CONST00001 = "retInfo";
+	public static final String radioBtn = "<div class='radio'><label><input type='radio' name='radioBtn' value='";
+	public static final String checkBox = "<div class='checkbox'><label><input type='checkbox' name='checkBoxBtn[]' value='";
+	public static final String stopBtn = "<button type='button' class='btn btn-info'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span>&nbsp;Ok</button>";
+	public static final String comNextPage = "<button type='button' class='btn btn-default btn-block' onclick='getNextCommentPage(this)'>加载下一页<span class='glyphicon glyphicon-menu-down' aria-hidden='true'></span></button>";
+	public static final String noMoreCom = "<button type='button' class='btn btn-default btn-block' onclick='getNextCommentPage(this)' disabled='disabled'>没有更多了<span class='glyphicon glyphicon-menu-down' aria-hidden='true'></span></button>";
 	
 	public class SQLTemplate {
 		public static final String SQL_QUERY_USER_ALL_INFO = "SELECT * FROM `v_user_all_info` WHERE 1";
@@ -35,11 +40,25 @@ public class VoteSysConstant {
 		public static final String SQL_QUERY_VOTE_INTO = "SELECT * FROM `t_vote_info` WHERE 1";
 		public static final String SQL_INSERT_VOTE_INFO = "INSERT INTO `t_vote_info`(`VOTE_OBJ`, `VOTE_CODE`, `REMARK`) VALUES (?,?,?)";
 		public static final String SQL_DELETE_VOTE_INFO = "DELETE FROM `t_vote_info` WHERE `VOTE_ID`=?";
+		public static final String SQL_QUERY_VOTE_LAUNCH = "SELECT * FROM `t_vote_launch` WHERE 1";
 		
 		public static final String SQL_INSERT_VOTE_LAUNCH = "INSERT INTO `t_vote_launch`(`TOPIC_ID`, `VOTE_STYLE`, `VOTE_STOP`, `EXP_DATE`) VALUES (";
 		
+		public static final String SQL_QUERY_UVR = "SELECT * FROM `t_user_vote_relate` WHERE 1";
+		public static final String SQL_QUERY_UVR_NUM = "SELECT COUNT(*) FROM `t_user_vote_relate` WHERE 1";
+		public static final String SQL_INSERT_UVR = "INSERT INTO `t_user_vote_relate`(`USER_ID`, `TOPIC_ID`, `VOTE_ID`, `VOTE_CODE`) VALUES (?,?,?,?)";
+		
 		public static final String SQL_QUERY_UTR = "SELECT * FROM `t_user_topic_relate` WHERE 1";
 		public static final String SQL_INSERT_UTR = "INSERT INTO `t_user_topic_relate`(`USER_ID`, `TOPIC_ID`, `CREATE_TIME`) VALUES (?,?,?)";
+		
+		public static final String SQL_QUERY_COMMENT = "SELECT * FROM `t_comment` WHERE 1";
+		public static final String SQL_SUB_NUM_INCREAM = "UPDATE `t_comment` SET `SUB_NUM`=`SUB_NUM`+1 WHERE `COM_ID`=?";
+		public static final String SQL_UP_NUM_INCREAM = "UPDATE `t_comment` SET `UP_NUM`=`UP_NUM`+1 WHERE `COM_ID`=?";
+		
+		public static final String SQL_INSERT_COMMENT = "INSERT INTO `t_comment`(`COM_CONTENT`) VALUES (?)";
+		public static final String SQL_INSERT_UCR = "INSERT INTO `t_user_com_relate`(`USER_ID`, `COM_ID`) VALUES (?,?)";
+		public static final String SQL_INSERT_TCR = "INSERT INTO `t_topic_com_relate`(`TOPIC_ID`, `COM_ID`) VALUES (?,?)";
+		public static final String SQL_QUERY_LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
 	}
 	
 	public class ConjunctiveQuerySQLTemplate {
@@ -52,5 +71,15 @@ public class VoteSysConstant {
 		 * 获取用户下所有的主题总数
 		 */
 		public static final String SQL_CQS_USER_FIND_TOPIC_TOTE = "SELECT COUNT(*) FROM `t_user_topic_relate` A,`t_topic_info` B WHERE A.`TOPIC_ID` = B.`TOPIC_ID`";
+		
+		/**
+		 * 获取评论，评论者名字头像
+		 */
+		public static final String SQL_CQS_TRINE_UTC = "SELECT `TOPIC_ID`, `USER_ID`, `USER_NAME`, `USER_IMG`, `COM_ID`, `COM_CONTENT`, `COM_STATUS`, `CREATE_TIME`, `SUB_NUM`, `UP_NUM` FROM `v_user_topic_com_trine` WHERE 1";
+		
+		/**
+		 * 查询某一主题下的评论总数
+		 */
+		public static final String SQL_CQS_TRINE_UTC_TOTE = "SELECT COUNT(*) FROM `v_user_topic_com_trine` WHERE 1 ";
 	}
 }

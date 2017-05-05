@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
 import com.votesys.bean.UserTopicRelateBean;
+import com.votesys.bean.UserVoteRelateBean;
 import com.votesys.bean.mapping.BeanOfMapping;
 import com.votesys.common.VoteSysConstant;
 import com.votesys.dao.query.inter.IQueryRelationDAO;
@@ -58,6 +59,38 @@ public class QueryRelationDAOImpl implements IQueryRelationDAO {
 		});
 		
 		return userTopicRelate.getUserID();
+	}
+
+	@Override
+	public int qryVoteOpitonGetCount(String voteID) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_UVR_NUM);
+		sql.append(" AND ").append(BeanOfMapping.UserVoteRelBeanMapping.voteID).append("=?");
+		
+		int ret = jdbcTemplate.queryForObject(sql.toString(), new Object[] {voteID}, Integer.class);
+		
+		return ret;
+	}
+
+	@Override
+	public boolean qryUserExistUserVote(String userID, String topicID) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_UVR);
+		sql.append(" AND ").append(BeanOfMapping.UserVoteRelBeanMapping.userID).append("=?");
+		sql.append(" AND ").append(BeanOfMapping.UserVoteRelBeanMapping.topicID).append("=?");
+		List<UserVoteRelateBean> uvrList = new ArrayList<UserVoteRelateBean>();
+		
+		jdbcTemplate.query(sql.toString(), new Object[] {userID, topicID}, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				UserVoteRelateBean uvRel = BeanUtils.setUserVoteRelateBean(rs);
+				uvrList.add(uvRel);
+			}
+		});
+		
+		if (uvrList.size() > 0 && uvrList != null) {
+			return true;
+		}
+		return false;
 	}
 
 }

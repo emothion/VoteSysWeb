@@ -26,4 +26,21 @@ public interface IQueryRelationSV {
 	 * @return
 	 */
 	public String qryUTRelFintUserIDByTopicID(String topicID);
+	
+	/**
+	 * @Function com.votesys.service.query.inter.IQueryRelationSV::qryVoteOpitonGetCount
+	 * @Description 通过投票项目编号查询获得的票数
+	 * @param voteID
+	 * @return
+	 */
+	public int qryVoteOpitonGetCount(String voteID);
+	
+	/**
+	 * @Function com.votesys.service.query.inter.IQueryRelationSV::qryUserExistUserVote
+	 * @Description 用户是否已经评论过该主题
+	 * @param userID
+	 * @param topicID
+	 * @return
+	 */
+	public boolean qryUserExistUserVote(String userID, String topicID);
 }

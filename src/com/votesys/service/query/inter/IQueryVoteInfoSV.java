@@ -3,6 +3,7 @@ package com.votesys.service.query.inter;
 import java.util.List;
 
 import com.votesys.bean.VoteInfoBean;
+import com.votesys.bean.VoteLaunchBean;
 
 /**
  * @ClassName com.votesys.service.query.inter.IQueryVoteInfoSV.java
@@ -17,4 +18,12 @@ public interface IQueryVoteInfoSV {
 	 * @return
 	 */
 	public List<VoteInfoBean> queryVoteInfoByRemarks(String topicID);
+	
+	/**
+	 * @Function com.votesys.service.query.inter.IQueryVoteInfoSV::queryVoteLaunchByTopicID
+	 * @Description 通过主题编号查询投票方式的配置
+	 * @param topicID
+	 * @return
+	 */
+	public VoteLaunchBean queryVoteLaunchByTopicID(String topicID);
 }

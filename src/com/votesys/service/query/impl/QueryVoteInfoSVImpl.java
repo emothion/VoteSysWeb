@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.votesys.bean.VoteInfoBean;
+import com.votesys.bean.VoteLaunchBean;
 import com.votesys.dao.query.inter.IQueryVoteInfoDAO;
 import com.votesys.service.query.inter.IQueryVoteInfoSV;
 
@@ -23,6 +24,11 @@ public class QueryVoteInfoSVImpl implements IQueryVoteInfoSV {
 	@Override
 	public List<VoteInfoBean> queryVoteInfoByRemarks(String topicID) {
 		return queryVoteInfoDAO.queryVoteInfoByRemarks(topicID);
+	}
+
+	@Override
+	public VoteLaunchBean queryVoteLaunchByTopicID(String topicID) {
+		return queryVoteInfoDAO.queryVoteLaunchByTopicID(topicID);
 	}
 
 }

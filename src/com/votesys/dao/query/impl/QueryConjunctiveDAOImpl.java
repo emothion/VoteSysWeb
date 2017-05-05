@@ -16,6 +16,7 @@ import com.votesys.bean.TopicInfoBean;
 import com.votesys.bean.mapping.BeanOfMapping;
 import com.votesys.common.VoteSysConstant;
 import com.votesys.dao.query.inter.IQueryConjunctiveDAO;
+import com.votesys.qbo.bean.TrineUTCBean;
 import com.votesys.tools.BeanUtils;
 import com.votesys.tools.StringUtils;
 
@@ -158,4 +159,56 @@ public class QueryConjunctiveDAOImpl implements IQueryConjunctiveDAO {
 		return topicList;
 	}
 
+	@Override
+	public List<TrineUTCBean> qryCommentByTopicID(String topicID, PageBean pageInfo) {
+		List<TrineUTCBean> utcList = new ArrayList<TrineUTCBean>();
+		StringBuffer sql = new StringBuffer(VoteSysConstant.ConjunctiveQuerySQLTemplate.SQL_CQS_TRINE_UTC);
+		sql.append(" AND ").append(BeanOfMapping.TrineUTCBeanMapping.topicID).append("=?");
+		sql.append(" LIMIT ").append(pageInfo.getStart()).append(",").append(pageInfo.getPageSize());
+		
+		jdbcTemplate.query(sql.toString(), new Object[] {topicID}, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				TrineUTCBean trineUTC = BeanUtils.setTrineUTCBean(rs);
+				utcList.add(trineUTC);
+			}
+		});
+		
+		if (utcList.size() > 0) {
+			return utcList;
+		}
+		return null;
+	}
+
+	@Override
+	public List<TrineUTCBean> qryCommentByComID(String comID) {
+		List<TrineUTCBean> utcList = new ArrayList<TrineUTCBean>();
+		StringBuffer sql = new StringBuffer(VoteSysConstant.ConjunctiveQuerySQLTemplate.SQL_CQS_TRINE_UTC);
+		sql.append(" AND ").append(BeanOfMapping.TrineUTCBeanMapping.comID).append("=?");
+		
+		jdbcTemplate.query(sql.toString(), new Object[] {comID}, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				TrineUTCBean trineUTC = BeanUtils.setTrineUTCBean(rs);
+				utcList.add(trineUTC);
+			}
+		});
+		
+		if (utcList.size() > 0) {
+			return utcList;
+		}
+		return null;
+	}
+
+	@Override
+	public int qryCommentCountByTopicID(String topicID) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.ConjunctiveQuerySQLTemplate.SQL_CQS_TRINE_UTC_TOTE);
+		sql.append(" AND ").append(BeanOfMapping.TrineUTCBeanMapping.topicID).append("=?");
+		
+		int ret = jdbcTemplate.queryForObject(sql.toString(), new Object[] {topicID}, Integer.class);
+		
+		return ret;
+	}
 }

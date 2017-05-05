@@ -56,4 +56,40 @@ public class OperRelationDAOImpl implements IOperRelationDAO {
 		return false;
 	}
 
+	@Override
+	public boolean insertUserComRelate(String userID, String comID) {
+		String sql = new String(VoteSysConstant.SQLTemplate.SQL_INSERT_UCR);
+		
+		int ret = jdbcTemplate.update(sql, new Object[] {userID, comID});
+
+		if (ret > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean insertTopicComRelate(String topicID, String comID) {
+		String sql = new String(VoteSysConstant.SQLTemplate.SQL_INSERT_TCR);
+		
+		int ret = jdbcTemplate.update(sql, new Object[] {topicID, comID});
+
+		if (ret > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean insertUserVoteRelate(List<Object[]> params) {
+		String sql = new String(VoteSysConstant.SQLTemplate.SQL_INSERT_UVR);
+		
+		int[] ret = jdbcTemplate.batchUpdate(sql, params);
+		
+		if (ret.length == params.size()) {
+			return true;
+		}
+		return false;
+	}
+
 }

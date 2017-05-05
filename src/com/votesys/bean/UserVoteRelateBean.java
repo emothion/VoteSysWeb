@@ -1,14 +1,15 @@
 package com.votesys.bean;
 
 /**
- * @ClassName com.votesys.bean.UserTopicRelateBean.java
- * @Description 用户与主题关系数据模型
+ * @ClassName com.votesys.bean.UserVoteRelateBean.java
+ * @Description 用户与投票关系
  */
-public class UserTopicRelateBean {
+public class UserVoteRelateBean {
 
 	private String relateID;
 	private String userID;
 	private String topicID;
+	private String voteID;
 	private String createTime;
 	
 	public String getRelateID() {
@@ -28,6 +29,12 @@ public class UserTopicRelateBean {
 	}
 	public void setTopicID(String topicID) {
 		this.topicID = topicID;
+	}
+	public String getVoteID() {
+		return voteID;
+	}
+	public void setVoteID(String voteID) {
+		this.voteID = voteID;
 	}
 	public String getCreateTime() {
 		return createTime;

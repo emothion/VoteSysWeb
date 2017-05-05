@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
 import com.votesys.bean.VoteInfoBean;
+import com.votesys.bean.VoteLaunchBean;
 import com.votesys.bean.mapping.BeanOfMapping;
 import com.votesys.common.VoteSysConstant;
 import com.votesys.dao.query.inter.IQueryVoteInfoDAO;
@@ -43,6 +44,27 @@ public class QueryVoteInfoDAOImpl implements IQueryVoteInfoDAO {
 		});
 		
 		return voteList;
+	}
+
+	@Override
+	public VoteLaunchBean queryVoteLaunchByTopicID(String topicID) {
+		List<VoteLaunchBean> voteLaunchList = new ArrayList<VoteLaunchBean>();
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_VOTE_LAUNCH);
+		sql.append(" AND ").append(BeanOfMapping.VoteLaunchBeanMapping.topicID).append("=?");
+		
+		jdbcTemplate.query(sql.toString(), new Object[] {topicID}, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				VoteLaunchBean voteLaunch = BeanUtils.setVoteLaunchBean(rs);
+				voteLaunchList.add(voteLaunch);
+			}
+		});
+		
+		if (voteLaunchList.size() > 0 && voteLaunchList != null) {
+			return voteLaunchList.get(0);
+		}
+		return null;
 	}
 
 }

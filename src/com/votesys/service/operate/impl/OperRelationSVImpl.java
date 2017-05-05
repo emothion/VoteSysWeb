@@ -39,4 +39,25 @@ public class OperRelationSVImpl implements IOperRelationSV {
 		return operRelationDAO.insertUserTopicRelate(userID, topicID, createTime);
 	}
 
+	@Override
+	public boolean insertUserComRelate(String userID, String comID) {
+		return operRelationDAO.insertUserComRelate(userID, comID);
+	}
+
+	@Override
+	public boolean insertTopicComRelate(String topicID, String comID) {
+		return operRelationDAO.insertTopicComRelate(topicID, comID);
+	}
+
+	@Override
+	public boolean insertUserVoteRelate(String userID, String topicID, String[] votes) {
+		List<Object[]> params = new ArrayList<Object[]>();
+		for (String vote : votes) {
+			String[] voteInfo = vote.split(",");
+			Object[] param = new Object[] {userID,topicID,voteInfo[0],voteInfo[1]};
+			params.add(param);
+		}
+		return operRelationDAO.insertUserVoteRelate(params);
+	}
+
 }
