@@ -1,7 +1,6 @@
 package com.votesys.dao.query.inter;
 
 import java.util.List;
-import java.util.Map;
 
 import com.votesys.bean.PageBean;
 import com.votesys.bean.TopicInfoBean;
