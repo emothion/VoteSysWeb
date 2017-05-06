@@ -64,4 +64,12 @@ public interface IQueryConjunctiveSV {
 	 * @return
 	 */
 	public int qryCommentCountByTopicID(String topicID);
+	
+	/**
+	 * @Function com.votesys.dao.query.inter.IQueryConjunctiveDAO::getVoteInfoByTopicID
+	 * @Description 查询某一主题下的所有投票信息
+	 * @param topicID
+	 * @return
+	 */
+	public List<String[]> getVoteInfoByTopicID(String topicID);
 }

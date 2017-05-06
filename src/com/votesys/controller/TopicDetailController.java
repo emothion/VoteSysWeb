@@ -333,13 +333,37 @@ public class TopicDetailController {
 	 * @param response
 	 * @throws Exception 
 	 */
-	@RequestMapping("stopTopic")
+	@RequestMapping("/stopTopic")
 	public void stopTopic(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		JSONObject ajaxResult = new JSONObject();
 		HttpSession session = request.getSession();
 		String topicID = ((TopicInfoBean) session.getAttribute("topicSession")).getTopicID();
 		
 		boolean ret = operTopicInfoSV.updateTopicInfoSetStatusS(topicID, "S");
+		
+		if (ret) {
+			ajaxResult.put(VoteSysConstant.Code, "00");
+			ajaxResult.put(VoteSysConstant.Message, "操作成功，稍后会自动跳转...");
+		} else {
+			ajaxResult.put(VoteSysConstant.Code, "11");
+			ajaxResult.put(VoteSysConstant.Message, "操作失败，请重试...");
+		}
+		
+		ResponseUtil.write(ajaxResult, response);
+	}
+	
+	/**
+	 * @Function com.votesys.controller.TopicDetailController::stopTopic
+	 * @Description 开启投票操作
+	 * @param request
+	 * @param response
+	 * @throws Exception 
+	 */
+	@RequestMapping("/publishTopic")
+	public void publishTopic(@RequestParam("topicID") String topicID, HttpServletResponse response) throws Exception {
+		JSONObject ajaxResult = new JSONObject();
+		
+		boolean ret = operTopicInfoSV.updateTopicInfoSetStatusS(topicID, "U");
 		
 		if (ret) {
 			ajaxResult.put(VoteSysConstant.Code, "00");

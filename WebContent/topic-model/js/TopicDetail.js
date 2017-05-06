@@ -109,6 +109,10 @@ function endorse(comID, obj) {
 	submitOpposerOrEndorse(comID, 'E', obj);
 }
 
+/**
+ * 停止投票
+ * @returns
+ */
 function stopTopic() {
 	$.post(url+"/topicDetail/stopTopic.do", {}, 
 			function(result) {

@@ -92,6 +92,10 @@ public class OperTopicInfoDAOImpl implements IOperTopicInfoDAO {
 		int ret = jdbcTemplate.update(sql, new Object[] {topicStatus, topicID});
 
 		if (ret > 0) {
+			ret = jdbcTemplate.update(VoteSysConstant.SQLTemplate.SQL_UPDATE_VOTE_LAUNCH, new Object[] {topicID});
+		}
+		
+		if (ret > 0) {
 			return true;
 		}
 		return false;

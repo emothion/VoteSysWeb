@@ -53,4 +53,10 @@ public class QueryConjunctiveSVImpl implements IQueryConjunctiveSV {
 		return queryConjunctiveDAO.qryCommentCountByTopicID(topicID);
 	}
 
+	@Override
+	public List<String[]> getVoteInfoByTopicID(String topicID) {
+		// TODO Auto-generated method stub
+		return queryConjunctiveDAO.getVoteInfoByTopicID(topicID);
+	}
+
 }

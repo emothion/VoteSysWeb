@@ -1,6 +1,7 @@
 package com.votesys.dao.query.inter;
 
 import java.util.List;
+import java.util.Map;
 
 import com.votesys.bean.PageBean;
 import com.votesys.bean.TopicInfoBean;
@@ -64,4 +65,12 @@ public interface IQueryConjunctiveDAO {
 	 * @return
 	 */
 	public int qryCommentCountByTopicID(String topicID);
+	
+	/**
+	 * @Function com.votesys.dao.query.inter.IQueryConjunctiveDAO::getVoteInfoByTopicID
+	 * @Description 查询某一主题下的所有投票信息
+	 * @param topicID
+	 * @return
+	 */
+	public List<String[]> getVoteInfoByTopicID(String topicID);
 }

@@ -42,8 +42,12 @@
 				<td>${topic.createTime}</td>
 				<td>${topic.topicStatus }</td>
 				<td>
-					<button type="button" class='btn btn-warning btn-xs ${topic.topicStatus=="P" ? "hidden":"" }'><span class="glyphicon glyphicon-export" aria-hidden="true"></span>&nbsp;导出</button>
-					<button type="button" class='btn btn-warning btn-xs ${topic.topicStatus=="P" ? "":"hidden" }'><span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;发布</button>
+					<button type="button" class='btn btn-warning btn-xs ${topic.topicStatus=="P" ? "hidden":"" }' onclick="stopAndExport('${topic.topicID }')">
+						<span class="glyphicon glyphicon-export" aria-hidden="true"></span>&nbsp;导出
+					</button>
+					<button type="button" class='btn btn-warning btn-xs ${topic.topicStatus=="P" ? "":"hidden" }' onclick="publishTopic('${topic.topicID }')">
+						<span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;发布
+					</button>
 				</td>
 			</tr>
 		</c:forEach>

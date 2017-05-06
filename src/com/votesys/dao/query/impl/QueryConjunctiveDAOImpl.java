@@ -211,4 +211,37 @@ public class QueryConjunctiveDAOImpl implements IQueryConjunctiveDAO {
 		
 		return ret;
 	}
+
+	@Override
+	public List<String[]> getVoteInfoByTopicID(String topicID) {
+		StringBuffer findVoteSQL = new StringBuffer(VoteSysConstant.ConjunctiveQuerySQLTemplate.SQL_CQS_TOPIC_FIND_VOTE);
+		StringBuffer VoteNumSQL = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_UVR_NUM);
+		StringBuffer condition = new StringBuffer(" AND ").append(BeanOfMapping.TopicVoteRelBeanMapping.topicID).append("=?");
+		findVoteSQL.append(condition);
+		condition.append(" AND ").append(BeanOfMapping.UserVoteRelBeanMapping.voteID).append("=?");
+		VoteNumSQL.append(condition);
+		List<String[]> list = new ArrayList<String[]>();
+		
+		jdbcTemplate.query(findVoteSQL.toString(), new Object[] {topicID}, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				String[] result = new String[] {
+						rs.getString(BeanOfMapping.VoteInfoBeanMapping.voteCode),
+						rs.getString(BeanOfMapping.VoteInfoBeanMapping.voteOBJ),
+						jdbcTemplate.queryForObject(VoteNumSQL.toString(), new String[] {
+								topicID,
+								rs.getString(BeanOfMapping.VoteInfoBeanMapping.voteID)
+								}, String.class)
+				};
+				list.add(result);
+			}
+		});
+		
+		
+		if (list.size() > 0) {
+			return list;
+		}
+		return null;
+	}
 }

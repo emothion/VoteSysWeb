@@ -539,3 +539,31 @@ function changImage() {
 		}
 	});
 }
+
+/**
+ * 开启投票
+ * @returns
+ */
+function stopTopic(topicID) {
+	$.post(url+"/topicDetail/publishTopic.do", {
+		topicID : topicID
+	},function(result) {
+		var result = eval('(' + result + ')');
+		if (result.Code == '00') {
+			$("#sucMsg").text("操作成功");
+			$('#successModel').modal('show');
+			setTimeout(function(){window.location.href=url+'/topicDetail/getTopicDetail.do?topicID='+topicID;},3000);
+		} else if (result.Code == '11'){
+			$("#errMsg").text(result.retMsg);
+			$('#alertModel').modal('show');
+		}
+	});
+}
+
+/**
+ * 结束投票并下载投票结果
+ * @returns
+ */
+function stopAndExport(topicID) {
+	window.location.href=url+'/topicMaker/stopAndExportTopic.do?topicID='+topicID;
+}
