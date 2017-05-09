@@ -67,4 +67,9 @@ public class OperCommentDAOImpl implements IOperCommentDAO {
 		return false;
 	}
 
+	@Override
+	public int updateCommentContent(String comID) {
+		return jdbcTemplate.update(VoteSysConstant.SQLTemplate.SQL_UPDATE_COMMENT_CONTENT, new Object[] {"内容已经被屏蔽...", comID});
+	}
+
 }

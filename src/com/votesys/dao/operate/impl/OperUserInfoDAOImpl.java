@@ -92,4 +92,20 @@ public class OperUserInfoDAOImpl implements IOperUserInfoDAO {
 		return true;
 	}
 
+	@Override
+	public boolean updateUserStatus(String userID, String userStatus) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_UPDATE_USER_INFO);
+		sql.append(BeanOfMapping.UserInfoBeanMapping.status).
+		append("='").append(userStatus).append("' ");
+		sql.append("WHERE ").append(BeanOfMapping.UserInfoBeanMapping.userID).
+		append("=").append(userID);
+
+		int ret = jdbcTemplate.update(sql.toString());
+		
+		if (ret < 1) {
+			return false;
+		}
+		return true;
+	}
+
 }

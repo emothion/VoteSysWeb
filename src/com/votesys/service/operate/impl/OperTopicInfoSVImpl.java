@@ -53,4 +53,9 @@ public class OperTopicInfoSVImpl implements IOperTopicInfoSV {
 		return operTopicInfoDAO.updateTopicInfoSetStatusS(topicID, topicStatus);
 	}
 
+	@Override
+	public int updateTopicStatusToU(String userID) {
+		return operTopicInfoDAO.updateTopicStatusToU(userID);
+	}
+
 }

@@ -100,5 +100,10 @@ public class OperTopicInfoDAOImpl implements IOperTopicInfoDAO {
 		}
 		return false;
 	}
+	
+	@Override
+	public int updateTopicStatusToU(String userID) {
+		return jdbcTemplate.update(VoteSysConstant.SQLTemplate.SQL_UPDATE_PUBLISH_TOPIC, new Object[] {userID});
+	}
 
 }

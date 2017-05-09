@@ -8,7 +8,7 @@
 <title>首页</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap3/css/bootstrap.min.css" />
 <script src="${pageContext.request.contextPath}/bootstrap3/js/jquery-1.11.2.min.js"></script>
-<script src="${pageContext.request.contextPath}/bootstrap3/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/bootstrap3/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/LoadIndex.js"></script>
 <script src="${pageContext.request.contextPath}/js/Common.js"></script>
 </head>

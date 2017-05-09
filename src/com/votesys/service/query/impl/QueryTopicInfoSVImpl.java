@@ -41,4 +41,14 @@ public class QueryTopicInfoSVImpl implements IQueryTopicInfoSV {
 		return queryTopicInfoDAO.queryTopicInfoTote(topicInfo);
 	}
 
+	@Override
+	public List<TopicInfoBean> queryTopicInfoForManager(PageBean pageInfo, TopicInfoBean topicInfo) {
+		return queryTopicInfoDAO.queryTopicInfoForManager(pageInfo, topicInfo);
+	}
+
+	@Override
+	public int queryTopicInfoForManagerTote(TopicInfoBean topicInfo) {
+		return queryTopicInfoDAO.queryTopicInfoForManagerTote(topicInfo);
+	}
+
 }

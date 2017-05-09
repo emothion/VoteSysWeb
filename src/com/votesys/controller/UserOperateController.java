@@ -61,6 +61,7 @@ public class UserOperateController {
 			throws Exception {
 		UserInfoBean userInfo = new UserInfoBean();
 		UserInfoBean resultUser = new UserInfoBean();
+		HttpSession session = request.getSession();
 		JSONObject ajaxResult = new JSONObject();
 		if (userName.contains("@") && userName.contains(".com")) {
 			userInfo.setUserEmail(userName);
@@ -81,13 +82,16 @@ public class UserOperateController {
 		if (userAllInfo == null) {
 			ajaxResult.put(VoteSysConstant.Code, "01");
 			ajaxResult.put(VoteSysConstant.Message, "用户名或密码错误！");
-			ResponseUtil.write(ajaxResult, response);
 		} else if (!"U".equals(resultUser.getStatus())) {
+			if ("M".equals(resultUser.getStatus())) {
+				ajaxResult.put(VoteSysConstant.Code, "11");
+				ajaxResult.put(VoteSysConstant.Message, "管理员账户");
+				session.setAttribute("manager", userAllInfo);
+				ResponseUtil.write(ajaxResult, response);
+			}
 			ajaxResult.put(VoteSysConstant.Code, "10");
 			ajaxResult.put(VoteSysConstant.Message, resultUser.getRetInfo());
-			ResponseUtil.write(ajaxResult, response);
-		} else {
-			HttpSession session = request.getSession();
+		}  else {
 			session.setAttribute("userSession", userAllInfo);
 			ajaxResult.put(VoteSysConstant.Code, "00");
 		}

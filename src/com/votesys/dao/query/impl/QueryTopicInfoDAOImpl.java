@@ -175,4 +175,75 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 		return tote;
 	}
 
+	@Override
+	public List<TopicInfoBean> queryTopicInfoForManager(PageBean pageInfo, TopicInfoBean topicInfo) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_TOPIC_INFO);
+		List<String> condition = new ArrayList<String>();
+		List<TopicInfoBean> topicList = new ArrayList<TopicInfoBean>();
+		if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
+			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
+			condition.add("%"+topicInfo.getTopicTitle()+"%");
+		}
+		if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
+			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
+			condition.add(topicInfo.getTopicStatus());
+		}
+		if (StringUtils.isNotEmpty(topicInfo.getEffTime())) {
+			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.createTime).append(">?");
+			condition.add(topicInfo.getEffTime());
+		}
+		if (StringUtils.isNotEmpty(topicInfo.getExpTime())) {
+			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.createTime).append("<?");
+			condition.add(topicInfo.getExpTime());
+		}
+		Object[] params = new Object[condition.size()+2];
+		for (int i = 0; i < condition.size(); i++) {
+			params[i] = condition.get(i);
+			
+		}
+		params[condition.size()] = pageInfo.getStart();
+		params[condition.size()+1] = pageInfo.getPageSize();
+		sql.append(" LIMIT ?,?");
+		
+		jdbcTemplate.query(sql.toString(), params, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				TopicInfoBean topicInfo = BeanUtils.setTopicInfoBean(rs);
+				topicList.add(topicInfo);
+			}
+		});
+		
+		return topicList;
+	}
+
+	@Override
+	public int queryTopicInfoForManagerTote(TopicInfoBean topicInfo) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_TOPIC_INFO_TOTE);
+		List<String> condition = new ArrayList<String>();
+		if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
+			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
+			condition.add("%"+topicInfo.getTopicTitle()+"%");
+		}
+		if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
+			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
+			condition.add(topicInfo.getTopicStatus());
+		}
+		if (StringUtils.isNotEmpty(topicInfo.getEffTime())) {
+			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.createTime).append(">?");
+			condition.add(topicInfo.getEffTime());
+		}
+		if (StringUtils.isNotEmpty(topicInfo.getExpTime())) {
+			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.createTime).append("<?");
+			condition.add(topicInfo.getExpTime());
+		}
+		Object[] params = new Object[condition.size()];
+		for (int i = 0; i < condition.size(); i++) {
+			params[i] = condition.get(i);
+			
+		}
+		
+		return jdbcTemplate.queryForObject(sql.toString(), params, Integer.class);
+	}
+
 }

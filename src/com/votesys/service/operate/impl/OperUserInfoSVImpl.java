@@ -36,4 +36,9 @@ public class OperUserInfoSVImpl implements IOperUserInfoSV {
 		return operUserInfoDAO.updateUserInfoPassword(userID, userKey);
 	}
 
+	@Override
+	public boolean updateUserStatus(String userID, String userStatus) {
+		return operUserInfoDAO.updateUserStatus(userID, userStatus);
+	}
+
 }

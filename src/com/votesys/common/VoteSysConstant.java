@@ -27,6 +27,8 @@ public class VoteSysConstant {
 		
 		/*** 查询用户基础信息系*/
 		public static final String SQL_QUERY_USER_INFO = "SELECT * FROM `t_user_info` WHERE 1";
+		/*** 查询用户基础信息数量*/
+		public static final String SQL_QUERY_USER_INFO_TOTE = "SELECT COUNT(*) FROM `t_user_info` WHERE 1";
 		/*** 插入用户基本信息，内容与?有关*/
 		public static final String SQL_INSERT_USER_INFO = "INSERT INTO `t_user_info`(?) VALUES (?)";
 		/*** 修改用户信息SQL模板*/
@@ -45,6 +47,8 @@ public class VoteSysConstant {
 		public static final String SQL_INSERT_TOPIC_INFO = "INSERT INTO `t_topic_info`(`TOPIC_TITLE`, `TOPIC_CONTENT`, `TOPIC_STATUS`, `CREATE_TIME`, `EFF_TIME`) VALUES (";
 		/*** 修改主题信息的SQL模板*/
 		public static final String SQL_UPDATE_TOPIC_INFO = "UPDATE `t_topic_info` SET `TOPIC_TITLE`=?,`TOPIC_CONTENT`=?,`TOPIC_STATUS`=?,`EFF_TIME`=? WHERE `TOPIC_ID`=?";
+		/***修改主题为发布状态 */
+		public static final String SQL_UPDATE_PUBLISH_TOPIC = "UPDATE `t_topic_info` SET `TOPIC_STATUS`='U',`EFF_TIME`=current_timestamp() WHERE `TOPIC_STATUS` = 'P' AND `TOPIC_ID`=?";
 		/*** 修改主题信息中失效时间的SQL模板*/
 		public static final String SQL_UPDATE_TOPIC_INFO_EXPTIME = "UPDATE `t_topic_info` SET `EXP_TIME`=? WHERE `TOPIC_ID`=?";
 		/*** 修改主题信息中的主题状态的SQL模板*/
@@ -87,6 +91,10 @@ public class VoteSysConstant {
 		
 		/*** 查询评论信息的SQL模板*/
 		public static final String SQL_QUERY_COMMENT = "SELECT * FROM `t_comment` WHERE 1";
+		/*** 查询评论信息总数的SQL模板*/
+		public static final String SQL_QUERY_COMMENT_TOTE = "SELECT COUNT(*) FROM `t_comment` WHERE 1";
+		/*** 修改评论内容的SQL模板*/
+		public static final String SQL_UPDATE_COMMENT_CONTENT = "UPDATE `t_comment` SET `COM_CONTENT`=? WHERE `COM_ID`=?";
 		/*** 踩评论的SQL模板*/
 		public static final String SQL_SUB_NUM_INCREAM = "UPDATE `t_comment` SET `SUB_NUM`=`SUB_NUM`+1 WHERE `COM_ID`=?";
 		/*** 赞评论的SQL模板*/

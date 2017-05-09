@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
 import com.votesys.bean.CommentBean;
+import com.votesys.bean.PageBean;
 import com.votesys.bean.mapping.BeanOfMapping;
 import com.votesys.common.VoteSysConstant;
 import com.votesys.dao.query.inter.IQueryCommentDAO;
@@ -46,6 +47,29 @@ public class QueryCommentDAOImpl implements IQueryCommentDAO {
 			return commentList.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public List<CommentBean> queryComment(PageBean pageInfo) {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_COMMENT);
+		List<CommentBean> commentList = new ArrayList<CommentBean>();
+		sql.append(" ORDER BY ").append(BeanOfMapping.CommentBeanMapping.subNum).append(" DESC LIMIT ?,?");
+		
+		jdbcTemplate.query(sql.toString(), new Object[] {pageInfo.getStart(), pageInfo.getPageSize()}, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				CommentBean comment = BeanUtils.setCommentBean(rs);
+				commentList.add(comment);
+			}
+		});
+		return commentList;
+	}
+
+	@Override
+	public int queryCommentTote() {
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_COMMENT_TOTE);
+		return jdbcTemplate.queryForObject(sql.toString(), Integer.class);
 	}
 
 }

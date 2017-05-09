@@ -11,11 +11,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
+import com.votesys.bean.PageBean;
 import com.votesys.bean.UserInfoBean;
 import com.votesys.bean.mapping.BeanOfMapping;
 import com.votesys.common.VoteSysConstant;
 import com.votesys.dao.query.inter.IQueryUserInfoDAO;
 import com.votesys.tools.BeanUtils;
+import com.votesys.tools.StringUtils;
 
 /**
  * @ClassName com.votesys.dao.impl.QueryUserInfoDAOImpl.java
@@ -152,5 +154,67 @@ public class QueryUserInfoDAOImpl implements IQueryUserInfoDAO {
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public List<UserInfoBean> queryUserInfo(PageBean pageInfo, UserInfoBean userInfo) {
+		List<UserInfoBean> list = new ArrayList<UserInfoBean>();
+		List<String> condition = new ArrayList<String>();
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_USER_INFO);
+		
+		if (StringUtils.isNotEmpty(userInfo.getUserName())) {
+			sql.append(" AND ").append(BeanOfMapping.UserInfoBeanMapping.userName).append(" LIKE ?");
+			condition.add("%"+userInfo.getUserName()+"%");
+		}
+		
+		if (StringUtils.isNotEmpty(userInfo.getStatus())) {
+			sql.append(" AND ").append(BeanOfMapping.UserInfoBeanMapping.status).append("=?");
+			condition.add(userInfo.getStatus());
+		} else {
+			sql.append(" AND ").append(BeanOfMapping.UserInfoBeanMapping.status).append("<>'M'");
+		}
+		sql.append(" LIMIT ?,? ");
+		Object[] params = new Object[condition.size()+2];
+		for (int i = 0; i < condition.size(); i++) {
+			params[i] = condition.get(i);
+		}
+		params[condition.size()] = pageInfo.getStart();
+		params[condition.size()+1] = pageInfo.getPageSize();
+		jdbcTemplate.query(sql.toString(), params, new RowCallbackHandler() {
+			
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				UserInfoBean retInfo = BeanUtils.setUserInfoBean(rs);
+				list.add(retInfo);
+			}
+		});
+		return list;
+	}
+
+	@Override
+	public int queryUserInfoTote(UserInfoBean userInfo) {
+		List<String> condition = new ArrayList<String>();
+		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_USER_INFO_TOTE);
+		
+		if (StringUtils.isNotEmpty(userInfo.getUserName())) {
+			sql.append(" AND ").append(BeanOfMapping.UserInfoBeanMapping.userName).append(" LIKE ?");
+			condition.add("%"+userInfo.getUserName()+"%");
+		}
+		
+		if (StringUtils.isNotEmpty(userInfo.getStatus())) {
+			sql.append(" AND ").append(BeanOfMapping.UserInfoBeanMapping.status).append("=?");
+			condition.add(userInfo.getStatus());
+		} else {
+			sql.append(" AND ").append(BeanOfMapping.UserInfoBeanMapping.status).append("<>'M'");
+		}
+		
+		Object[] params = new Object[condition.size()];
+		for (int i = 0; i < condition.size(); i++) {
+			params[i] = condition.get(i);
+		}
+		
+		int ret = jdbcTemplate.queryForObject(sql.toString(), params, Integer.class);
+		
+		return ret;
 	}
 }

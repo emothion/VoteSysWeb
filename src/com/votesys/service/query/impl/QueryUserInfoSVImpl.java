@@ -1,9 +1,12 @@
 package com.votesys.service.query.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.votesys.bean.PageBean;
 import com.votesys.bean.UserInfoBean;
 import com.votesys.common.VoteSysConstant;
 import com.votesys.dao.query.inter.IQueryUserInfoDAO;
@@ -83,5 +86,15 @@ public class QueryUserInfoSVImpl implements IQueryUserInfoSV {
 	@Override
 	public UserInfoBean queryUserInfoByUserID(String userID) {
 		return queryUserInfoDAO.queryUserInfoByUserID(userID);
+	}
+
+	@Override
+	public List<UserInfoBean> queryUserInfo(PageBean pageInfo, UserInfoBean userInfo) {
+		return  queryUserInfoDAO.queryUserInfo(pageInfo, userInfo);
+	}
+
+	@Override
+	public int queryUserInfoTote(UserInfoBean userInfo) {
+		return queryUserInfoDAO.queryUserInfoTote(userInfo);
 	}
 }

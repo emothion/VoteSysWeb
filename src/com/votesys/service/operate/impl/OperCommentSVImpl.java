@@ -27,4 +27,9 @@ public class OperCommentSVImpl implements IOperCommentSV {
 		return operCommentDAO.upDateSubOrUpNum(comID, status);
 	}
 
+	@Override
+	public int updateCommentContent(String comID) {
+		return operCommentDAO.updateCommentContent(comID);
+	}
+
 }

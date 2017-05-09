@@ -31,4 +31,13 @@ public interface IOperUserInfoDAO {
 	 * @return
 	 */
 	public boolean updateUserInfoPassword(String userID, String userKey);
+	
+	/**
+	 * @Function com.votesys.dao.operate.inter.IOperUserInfoDAO::updateUserStatus
+	 * @Description 修改用户状态
+	 * @param userID
+	 * @param userStatus
+	 * @return
+	 */
+	public boolean updateUserStatus(String userID, String userStatus);
 }

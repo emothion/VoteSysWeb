@@ -22,4 +22,12 @@ public interface IOperCommentDAO {
 	 * @return
 	 */
 	public boolean upDateSubOrUpNum(String comID, String status);
+	
+	/**
+	 * @Function com.votesys.service.operate.inter.IOperCommentSV::insertComment
+	 * @Description 修改评论内容
+	 * @param comContent
+	 * @return
+	 */
+	public int updateCommentContent(String comID);
 }

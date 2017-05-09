@@ -41,4 +41,19 @@ public interface IQueryTopicInfoSV {
 	 * @return
 	 */
 	public int queryTopicInfoTote(TopicInfoBean topicInfo);
+	
+	/**
+	 * @Function com.votesys.service.query.inter.IQueryTopicInfoSV::queryTopicInfo
+	 * @Description 管理员查询主题（分页）
+	 * @param pageInfo
+	 * @return
+	 */
+	public List<TopicInfoBean> queryTopicInfoForManager(PageBean pageInfo, TopicInfoBean topicInfo);
+	
+	/**
+	 * @Function com.votesys.service.query.inter.IQueryTopicInfoSV::queryTopicInfo
+	 * @Description 管理员查询主题总数
+	 * @return
+	 */
+	public int queryTopicInfoForManagerTote(TopicInfoBean topicInfo);
 }

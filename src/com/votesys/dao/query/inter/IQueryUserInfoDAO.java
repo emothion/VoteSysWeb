@@ -1,5 +1,8 @@
 package com.votesys.dao.query.inter;
 
+import java.util.List;
+
+import com.votesys.bean.PageBean;
 import com.votesys.bean.UserInfoBean;
 
 /**
@@ -46,4 +49,18 @@ public interface IQueryUserInfoDAO {
 	 * @param userID
 	 */
 	public UserInfoBean queryUserInfoByUserID(String userID);
+	
+	/**
+	 * @Function com.votesys.dao.query.inter.IQueryUserInfoDAO::queryUserInfoByuserID
+	 * @Description 查询用户信息
+	 * @param userID
+	 */
+	public List<UserInfoBean> queryUserInfo(PageBean pageInfo, UserInfoBean userInfo);
+	
+	/**
+	 * @Function com.votesys.dao.query.inter.IQueryUserInfoDAO::queryUserInfoByuserID
+	 * @Description 查询用户数量
+	 * @param userID
+	 */
+	public int queryUserInfoTote(UserInfoBean userInfo);
 }

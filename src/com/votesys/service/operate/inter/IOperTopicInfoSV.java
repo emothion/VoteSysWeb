@@ -50,4 +50,11 @@ public interface IOperTopicInfoSV {
 	 * @return
 	 */
 	public boolean updateTopicInfoSetStatusS(String topicID, String topicStatus);
+	
+	/**
+	 * @Function com.votesys.dao.operate.inter.IOperProcessTaskDAO::updateTopicStatusToU
+	 * @Description 将预发布状态的主题改为发布状态
+	 * @return
+	 */
+	public int updateTopicStatusToU(String topicID);
 }

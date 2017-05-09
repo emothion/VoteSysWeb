@@ -85,6 +85,10 @@ function Logon(url) {
 			$("#logonAlert").removeClass("hidden").find("p").text(result.retMsg);
 		} else if (result.Code == '10') {
 			$("#logonAlert").removeClass("hidden").find("p").text(result.retMsg);
+		} else if (result.Code == '11') {
+			$("#sucMsg").text(result.retMsg);
+			$('#successModel').modal('show');
+			setTimeout(function(){window.location.href=url+'/manager/initManagerPage.do';},3000);
 		}
 	});
 }
