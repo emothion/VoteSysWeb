@@ -80,7 +80,7 @@
 
 <jsp:include page="/CommoPage/AlertModel.jsp"></jsp:include>
 <script type="text/javascript">
-var url = ${${pageContext.request.contextPath };
+var url = ${pageContext.request.contextPath };
 </script>
 </body>
 </html>
