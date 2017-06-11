@@ -7,7 +7,7 @@
 	<img src="../image/sys/Vote_Title.jpg" alt="投票项目">
 	<div class="caption">
 		<h3>可选项</h3>
-		<form action="${pageContext.request.contextPath}/topicDetail/vote.do" method="post" onsubmit="checkSession('${userSession.userID}')">
+		<form id="voteForm" action="${pageContext.request.contextPath}/topicDetail/vote.do" method="post">
 			<c:forEach var="voteOption" items="${VoteOptions }" varStatus="status">
 				${voteOption.voteCode } ${status.index+1 }.${voteOption.voteOBJ }
 				<div class="progress progress-striped active">
@@ -19,3 +19,4 @@
 		</form>
 	</div>
 </div>
+

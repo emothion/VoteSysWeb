@@ -9,7 +9,7 @@ public class PageBean {
 	private int page; // 第几页
 	private int pageSize; // 每页记录数
 	@SuppressWarnings("unused")
-	private int start;  // 起始个数
+	private int start;  // 每页第一个数
 	
 	
 	public PageBean(int page, int pageSize) {

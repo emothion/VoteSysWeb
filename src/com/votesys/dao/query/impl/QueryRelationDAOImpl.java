@@ -45,7 +45,7 @@ public class QueryRelationDAOImpl implements IQueryRelationDAO {
 	}
 
 	@Override
-	public String qryUTRelFintUserIDByTopicID(String topicID) {
+	public String qryUTRelFindUserIDByTopicID(String topicID) {
 		UserTopicRelateBean userTopicRelate = new UserTopicRelateBean();
 		StringBuffer sql = new StringBuffer(VoteSysConstant.SQLTemplate.SQL_QUERY_UTR);
 		sql.append(" AND ").append(BeanOfMapping.UserTopicRelBeanMapping.topicID).append("=?");

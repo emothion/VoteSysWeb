@@ -13,7 +13,7 @@
 <script src="${pageContext.request.contextPath}/js/Common.js"></script>
 </head>
 
-<body style="background-color: #DCDCDC; height: 100%">
+<body style="background-color: #DCDCDC; height: 100%; background-color: #FFAA33">
 <!-- 导航栏 开始 -->
 <nav class="navbar navbar-default navbar-static-top">
 	<div class="container-fluid">
@@ -22,7 +22,7 @@
 		</div>
 		<div id="navbar" class="navbar-right">
 			<a class="navbar-brand" href="${pageContext.request.contextPath}/userOperate/toUserInfoPage.do">${userSession.userName }</a>
-			<a id="login" class="navbar-brand" data-toggle="modal" data-target="#LogonModal" href="#">登陆</a>
+			<a id="login" class="navbar-brand" data-toggle="modal" data-target="#LogonModal" href="#">登录</a>
 			<a id="logon" class="navbar-brand" data-toggle="modal" data-target="#LoginModal" href="#">注册</a>
 			<a id="logout" href="javascript:logout('${pageContext.request.contextPath}')" class="navbar-brand">注销</a>
 		</div>
@@ -48,12 +48,12 @@
 							<div class="row form-group text-center">
 								<div class="col-sm-6">
 									<label class="checkbox-inline">
-										<input type="checkbox" name="topicStatus" ${topicSession.topicStatus == "U" ? "checked='checked'":"" } value="U"> 进行中
+										<input type="radio" name="topicStatus" ${topicSession.topicStatus == "U" ? "checked='checked'":"" } value="U"> 进行中
 									</label>
 								</div>
 								<div class="col-sm-6">
 									<label class="checkbox-inline">
-										<input type="checkbox" name="topicStatus" ${topicSession.topicStatus == "S" ? "checked='checked'":"" } value="S"> 已结束
+										<input type="radio" name="topicStatus" ${topicSession.topicStatus == "S" ? "checked='checked'":"" } value="S"> 已结束
 									</label>
 								</div>
 							</div>

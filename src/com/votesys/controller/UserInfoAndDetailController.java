@@ -20,6 +20,7 @@ import com.votesys.service.query.inter.IQueryUserInfoAndExtSV;
 import com.votesys.service.query.inter.IQueryUserInfoSV;
 import com.votesys.tools.Base64DecodeToImageUtils;
 import com.votesys.tools.ResponseUtil;
+import com.votesys.tools.StringUtils;
 
 import net.sf.json.JSONObject;
 
@@ -45,7 +46,7 @@ public class UserInfoAndDetailController {
 	 * @Description 用户完整信息编辑
 	 * @param userAllInfo
 	 */
-	@RequestMapping("/userInfoDetailEdit")
+	@RequestMapping("/userInfoDetailEdit")//spring的自动注入特性
 	public ModelAndView userInfoDetailEdit(UserAllInfoBean userAllInfo, HttpServletRequest request) {
 		ModelAndView mAndView = new ModelAndView();
 		UserInfoBean userInfo = new UserInfoBean();
@@ -68,24 +69,27 @@ public class UserInfoAndDetailController {
 			userInfoDtl.setUserRegion(userAllInfo.getUserRegion());
 			userInfoDtl.setUserDesc(userAllInfo.getUserDesc());
 			retFlag = operUserInfoDtlSV.updateUserInfoDtl(userInfoDtl);
+		}//控制事物一致性
+		
+		
+		getUserAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);//之后都是初始化页面的操作
+		if (StringUtils.isNotEmpty(getUserAllInfo.getUserSexy())) {
+			getUserAllInfo.setUserSexy("00".equals(getUserAllInfo.getUserSexy()) ? "女":"男");
+		} else {
+			getUserAllInfo.setUserSexy("");
 		}
-		
-		
-		getUserAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
-		getUserAllInfo.setUserSexy("00".equals(userAllInfo.getUserSexy()) ? "女":"男");
 
 		userInfo = queryUserInfoSV.queryUserInfoByUserID(userID);
-		request.getSession().invalidate();
 		HttpSession session = request.getSession();
-		session.setAttribute("userSession", userInfo);
+		session.setAttribute("userSession", getUserAllInfo);
 		session.setAttribute("userID", userInfo.getUserID());
 		
 		mAndView.addObject("userAllInfo", getUserAllInfo);
-		mAndView.addObject("userInfoPageUnitPath", "UserInfoDtlForm.jsp");
+		mAndView.addObject("userInfoPageUnitPath", "UserInfoDtlList.jsp");
 		mAndView.setViewName("user-model/UserInfoPage");
 		
 		if (retFlag) {
-			mAndView.addObject("flag", "2");
+			mAndView.addObject("flag", "1");
 		} else {
 			mAndView.addObject("flag", "0");
 		}

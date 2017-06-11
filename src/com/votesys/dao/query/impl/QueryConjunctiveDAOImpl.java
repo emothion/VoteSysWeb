@@ -127,8 +127,7 @@ public class QueryConjunctiveDAOImpl implements IQueryConjunctiveDAO {
 				params = new Object[] {userID, topicInfo.getTopicTitle(), pageInfo.getStart(), pageInfo.getPageSize()};
 				onlyHasUserID = false;
 			}
-		}
-		if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
+		} else if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
 			condition.append(" AND B.").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("=?");
 			if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
 				condition.append(" AND B.").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");

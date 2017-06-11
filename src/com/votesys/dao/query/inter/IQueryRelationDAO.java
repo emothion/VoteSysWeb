@@ -24,7 +24,7 @@ public interface IQueryRelationDAO {
 	 * @param topicID
 	 * @return
 	 */
-	public String qryUTRelFintUserIDByTopicID(String topicID);
+	public String qryUTRelFindUserIDByTopicID(String topicID);
 	
 	/**
 	 * @Function com.votesys.service.query.inter.IQueryRelationSV::qryVoteOpitonGetCount

@@ -12,7 +12,7 @@ public interface IQueryTopicInfoExtSV {
 
 	/**
 	 * @Function com.votesys.service.query.inter.IQueryTopicInfoExtSV::queryMainImageByTopicID
-	 * @Description 查询主题封面
+	 * @Description 查询主题封面t_topic_info_dtl
 	 * @param topicID
 	 * @return
 	 */

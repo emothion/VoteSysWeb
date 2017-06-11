@@ -88,7 +88,7 @@ public class TopicMakerController {
 		topicInfo = new TopicInfoBean();
 
 		if (StringUtils.isNotBlank(createTime)) {
-			topicInfo = queryTopicInfoSV.queryTopicInfoByCreateTime(createTime);
+			topicInfo = queryTopicInfoSV.queryTopicInfoByCreateTime(createTime);//查询刚才插入的主体信息的主题编号
 			retCode = true;
 		}
 
@@ -127,14 +127,14 @@ public class TopicMakerController {
 	public void stepTwoSaveImg(@RequestParam("upFile") MultipartFile[] files, @RequestParam("topicID") String topicID,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		JSONObject ajaxResult = new JSONObject();
-		String path = request.getServletContext().getRealPath("/");
+		String path = request.getServletContext().getRealPath("/");//真实路径
 
 		List<String> fileList = new ArrayList<String>();
 		for (int i = 0; i < files.length; i++) {
 			StringBuffer filePath = new StringBuffer(path);
-			filePath.append("image/topic/").append(files[i].getOriginalFilename());
-			files[i].transferTo(new File(filePath.toString()));
-			fileList.add(files[i].getOriginalFilename());
+			filePath.append("image/topic/").append(files[i].getOriginalFilename());//C:\apache-tomcat-8.0.33\wtpwebapps\VoteSysWeb\image\topic\1df915677ccf3373207a145885a477e7.jpg
+			files[i].transferTo(new File(filePath.toString()));//保存到本地文件夹
+			fileList.add(files[i].getOriginalFilename());//存储文件名，方便存到数据库
 		}
 
 		if (StringUtils.isNotBlank(topicID)) {
@@ -280,7 +280,7 @@ public class TopicMakerController {
 			HttpServletResponse response) throws IOException, WriteException {
 		String templatePath = request.getServletContext().getRealPath("\\");
 		List<String[]> list = null;
-		boolean ret = operTopicInfoSV.updateTopicInfoSetStatusS(topicID, "U");
+		boolean ret = operTopicInfoSV.updateTopicInfoSetStatusS(topicID, "S");
 		
 		if (ret) {
 			list = queryConjuntiveSV.getVoteInfoByTopicID(topicID);

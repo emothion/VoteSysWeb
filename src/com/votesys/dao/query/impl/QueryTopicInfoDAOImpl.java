@@ -92,29 +92,29 @@ public class QueryTopicInfoDAOImpl implements IQueryTopicInfoDAO {
 				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("<>'P'");
 				params = new Object[] {"%"+topicInfo.getTopicTitle()+"%", pageInfo.getStart(), pageInfo.getPageSize()};
 			}
-		}
-		if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
-			condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus);
-			if ("P".equals(topicInfo.getTopicStatus())) {
-				condition.append("<>?");
-			} else {
-				condition.append("=?");
+		} else {
+			if (StringUtils.isNotEmpty(topicInfo.getTopicStatus())) {
+				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus);
+				if ("P".equals(topicInfo.getTopicStatus())) {
+					condition.append("<>?");
+				} else {
+					condition.append("=?");
+				}
+				if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
+					condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
+					params = new Object[] {topicInfo.getTopicStatus(), "%"+topicInfo.getTopicTitle()+"%", pageInfo.getStart(), pageInfo.getPageSize()};
+				}else {
+					params = new Object[] {topicInfo.getTopicStatus(), pageInfo.getStart(), pageInfo.getPageSize()};
+				}
 			}
-			if (StringUtils.isNotEmpty(topicInfo.getTopicTitle())) {
-				condition.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicTitle).append(" LIKE ?");
-				params = new Object[] {topicInfo.getTopicStatus(), "%"+topicInfo.getTopicTitle()+"%", pageInfo.getStart(), pageInfo.getPageSize()};
-			}else {
-				params = new Object[] {topicInfo.getTopicStatus(), pageInfo.getStart(), pageInfo.getPageSize()};
-			}
 		}
-		
 		if (params == null) {
 			sql.append(" AND ").append(BeanOfMapping.TopicInfoBeanMapping.topicStatus).append("<>'P'").
 			append(" ORDER BY `CREATE_TIME` DESC LIMIT ?,?");
 			jdbcTemplate.query(sql.toString(), new Object[] {pageInfo.getStart(), pageInfo.getPageSize()}, new RowCallbackHandler() {
 				
 				@Override
-				public void processRow(ResultSet rs) throws SQLException {
+				public void processRow(ResultSet rs) throws SQLException {//这整个方法为第四步把数据放入模型类。
 					TopicInfoBean topicInfo = BeanUtils.setTopicInfoBean(rs);
 					topicList.add(topicInfo);
 				}

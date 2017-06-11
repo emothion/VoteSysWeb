@@ -16,11 +16,11 @@
 	<c:forEach var="com" items="${comList }" varStatus="status">
 		<tr>
 			<td>${com.comID }</td>
-			<td>${com.comContent}</td>
+			<td id="td${com.comID }">${com.comContent}</td>
 			<td>${com.subNum }</td>
 			<td>${com.upNum }</td>
 			<td>
-				<button type="button" class='btn btn-danger btn-xs' onclick="banComment('${com.comID }')">
+				<button type="button" class='btn btn-danger btn-xs ${com.comContent=="内容已经被屏蔽..." ? "hidden":"" }' id="bc${com.comID }" onclick="banComment('${com.comID }')">
 					<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 封禁
 				</button>
 			</td>

@@ -1,6 +1,12 @@
 /**
  * 
  */
+var userNameCheck = false;
+
+/**
+ * 登出系统
+ * @param url
+ */
 function logout(url) {
 	if(confirm('您确定要退出系统吗?')){
 		window.location.href=url+"/userOperate/userLogout.do";
@@ -39,13 +45,32 @@ $(function() {
 						attr('data-toggle', 'tooltip').attr('data-placement', 'right').attr('title', '昵称不能重复').
 						after("<span class='glyphicon glyphicon-remove form-control-feedback' aria-hidden='true'>" +
 						"</span><span id='inputError2Status' class='sr-only'>(error)</span>");
+						userNameCheck = true;
 					} else {
 						$("#userNameA").removeAttr('title').removeAttr('data-placement').removeAttr('data-toggle').
 						parent().removeClass("has-error has-feedback");
-						$("#userNameA").siblings().remove()
+						$("#userNameA").siblings().remove();
+						userNameCheck = false;
 					}
 				}
 			});
+		}
+	});
+	
+	/**
+	 * Email格式校验
+	 */
+	$("#userEmail").blur(function() {
+		var userEmail = $("#userEmail").val();
+		if (!(userEmail.indexOf("@") >= 1 && userEmail.indexOf(".com") >= userEmail.indexOf("@")+2)) {
+			$("#userEmail").parent().addClass("has-error has-feedback").children().
+			attr('data-toggle', 'tooltip').attr('data-placement', 'right').attr('title', 'Email格式错误：XXX@XX.com').
+			after("<span class='glyphicon glyphicon-remove form-control-feedback' aria-hidden='true'>" +
+			"</span><span id='inputError2Status' class='sr-only'>(error)</span>");
+		} else {
+			$("#userEmail").removeAttr('title').removeAttr('data-placement').removeAttr('data-toggle').
+			parent().removeClass("has-error has-feedback");
+			$("#userEmail").siblings().remove()
 		}
 	});
 	
@@ -110,6 +135,22 @@ function Login(url) {
 		return;
 	}
 	
+	if (userNameCheck) {
+		$("#loginAlert").removeClass("hidden").find("p").text("昵称重复，请修改后再次提交");
+		return;
+	}
+	
+	if (!(userEmail.indexOf("@") >= 1 && userEmail.indexOf(".com") >= userEmail.indexOf("@")+1)) {
+		$("#loginAlert").removeClass("hidden").find("p").text("Email格式错误：XXX@XX.com，请修改后再次提交");
+		return;
+	}
+	
+	var reg = new RegExp("^[0-9]{11}$");
+	if(!reg.test(userPhone)) {
+		$("#loginAlert").removeClass("hidden").find("p").text("用户手机号不正确，请修改后再次提交");
+		return;
+	}
+	
 	if (passwordA == passwordB) {
 		$.post(url+"/userOperate/userLogin.do", {
 			userName : userName,
@@ -134,6 +175,10 @@ function Login(url) {
  */
 $('#LoginModal').on('shown.bs.modal', function() {});
 
+/**
+ * 登录名和密码是否为空的校验
+ * @returns {Boolean}
+ */
 function checkLogonForm() {
 	var userName=document.getElementById("userName").value;
 	var password=document.getElementById("password").value;

@@ -129,7 +129,7 @@ public class TopicDetailController {
 		if (retCode) {
 			if (session.getAttribute("userSession") != null) {
 				String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
-				String getUserID = queryRelationSV.qryUTRelFintUserIDByTopicID(topicID);
+				String getUserID = queryRelationSV.qryUTRelFindUserIDByTopicID(topicID);
 				UserAllInfoBean userInfo = queryUserInfoAndExtSV.queryUserAllInfo(getUserID);
 				mAndView.addObject("author", userInfo);
 				if (!getUserID.equals(userID) && !queryRelationSV.qryUserExistUserVote(userID, topicID) && "U".equals(topicInfo.getTopicStatus())) {
@@ -138,7 +138,7 @@ public class TopicDetailController {
 					mAndView.addObject("stopBtn", VoteSysConstant.stopBtn);
 				}
 			} else {
-				String getUserID = queryRelationSV.qryUTRelFintUserIDByTopicID(topicID);
+				String getUserID = queryRelationSV.qryUTRelFindUserIDByTopicID(topicID);
 				UserAllInfoBean userInfo = queryUserInfoAndExtSV.queryUserAllInfo(getUserID);
 				mAndView.addObject("author", userInfo);
 				mAndView.addObject("VoteSubmit", PageUtil.setVoteSubmitButton());
@@ -275,21 +275,29 @@ public class TopicDetailController {
 			@RequestParam(value="checkBoxBtn[]", required=false) String[] checkBox, HttpServletRequest request) {
 		ModelAndView mAndView = new ModelAndView();
 		HttpSession session = request.getSession();
-		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
-		String topicID = ((TopicInfoBean) session.getAttribute("topicSession")).getTopicID();
 		boolean ret = false;
-		if (StringUtils.isNotBlank(radio)) {
-			String[] vote = new String[] {radio};
-			ret = operRelationSV.insertUserVoteRelate(userID, topicID, vote);
+		String userID = null;
+		if (null != session.getAttribute("userSession")) {
+			userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
+			ret = true;
 		}
-		if (checkBox != null && checkBox.length > 0) {
-			ret = operRelationSV.insertUserVoteRelate(userID, topicID, checkBox);
+		String topicID = null;
+		if (null != session.getAttribute("topicSession")) {
+			topicID = ((TopicInfoBean) session.getAttribute("topicSession")).getTopicID();
+			ret = true;
 		}
-		
+		if (ret) {
+			if (StringUtils.isNotBlank(radio)) {
+				String[] vote = new String[] {radio};
+				ret = operRelationSV.insertUserVoteRelate(userID, topicID, vote);
+			}
+			if (checkBox != null && checkBox.length > 0) {
+				ret = operRelationSV.insertUserVoteRelate(userID, topicID, checkBox);
+			}
+		}
 		if (ret) {
 			return initTopicDetail(topicID, request);
 		}
-		mAndView.setViewName("index");
 		return mAndView;
 	}
 	

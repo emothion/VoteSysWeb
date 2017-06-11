@@ -6,13 +6,13 @@
 	<form class="form-inline" action="${pageContext.request.contextPath }/topicChecker/getTopicInfoList.do" method="post">
 		<div class="input-group">
 			<label class="checkbox-inline">
-				<input type="checkbox" name="topicStatus" id="statusP" ${topicSession.topicStatus == "P" ? "checked='checked'" : "" } value="P"> 待发布
+				<input type="radio" name="topicStatus" id="statusP" ${topicSession.topicStatus == "P" ? "checked='checked'" : "" } value="P"> 待发布
 			</label>
 			<label class="checkbox-inline">
-				<input type="checkbox" name="topicStatus" id="statusU" ${topicSession.topicStatus == "U" ? "checked='checked'" : "" } value="U"> 进行中
+				<input type="radio" name="topicStatus" id="statusU" ${topicSession.topicStatus == "U" ? "checked='checked'" : "" } value="U"> 进行中
 			</label>
 			<label class="checkbox-inline">
-				<input type="checkbox" name="topicStatus" id="statusS" ${topicSession.topicStatus == "S" ? "checked='checked'" : "" } value="S"> 已关闭 &nbsp;
+				<input type="radio" name="topicStatus" id="statusS" ${topicSession.topicStatus == "S" ? "checked='checked'" : "" } value="S"> 已关闭 &nbsp;
 			</label>
 		</div>
 		<div class="input-group">

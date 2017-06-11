@@ -79,7 +79,7 @@ $(function() {
 	if (sex == 00) {
 		$("input[type=radio][name=userSexy][value=00]").attr("checked",'checked');
 	} else if (sex == 11) {
-		$("input[type=radio][name=userSexy][value=11]").attr("checked",'checked')
+		$("input[type=radio][name=userSexy][value=11]").attr("checked",'checked');
 	}
 	
 	/**
@@ -144,7 +144,7 @@ function openExpTimeForm() {
  * @param obj
  * @returns
  */
-function incVote(obj) {
+function incVote() {
 	voteNum++;
 	if (voteNum <= 10) {
 		$("#step3Form").append("<div class='form-group' id='vote"+voteNum+"'><label for='vote"+
@@ -167,7 +167,7 @@ function delVoteObj(obj) {
 	obj += voteNum;
 	$(obj).remove();
 	voteNum--;
-	bandBtn();
+	bandBtn();//important!
 	if (voteNum == 2) {
 		$("#delBtn").attr("disabled","disabled");
 	}
@@ -189,9 +189,9 @@ function bandBtn() {
  * @returns
  */
 function gotoStep2() {
-	var effTime = "";
+	var effTime = "";//生效时间--发布到主页的时间
 	if ($("#effTime").val() != "" && $("#topicH").val() != "" && $("#topicM").val() != "") {
-		var effTime = $("#effTime").val()+" "+$("#topicH").val()+":"+$("#topicM").val();
+		var effTime = $("#effTime").val()+" "+$("#topicH").val()+":"+$("#topicM").val();//YYYY-MM-DD HH:MM
 	}
 	var opType = $("#opType").val();
 	var reqUrl = url+"/topicMaker/stepOneSaveTopicInfo.do";
@@ -207,7 +207,7 @@ function gotoStep2() {
 		}
 	}
 	
-	getCurrentTime()
+	getCurrentTime();
 	var currentTime = new Date(time);
 	var getTime = new Date(effTime);
 	
@@ -225,25 +225,25 @@ function gotoStep2() {
 		effTime : effTime,
 		opType : opType
 	}, function(result) {
-		var result = eval('(' + result + ')');
+		var result = eval('(' + result + ')');//将ajaxResult转化成result,eval为转换方法。将Json对象转换成Json格式的数据
 		if (result.Code == '00') {
 			$("#step1").addClass("hidden");
 			$("#step2").removeClass("hidden");
-			$("#li2").addClass("active");
-			$("#li1").removeClass("active");
+			$("#li2").addClass("active");//灰色
+			$("#li1").removeClass("active");//变成黑色
 			$("#topicID").val(result.topicID);
 			$("#opType").val("update");
 			$("#file-1").fileinput({
-				uploadUrl: url+"/topicMaker/stepTwoSaveImg.do?topicID="+$("#topicID").val(), 
-				uploadAsync: false,
-				language : "zh",
-				allowedFileExtensions : ['jpg', 'png','gif'],
+				uploadUrl: url+"/topicMaker/stepTwoSaveImg.do?topicID="+$("#topicID").val(), //调用控制层方法
+				uploadAsync: false,//是否是同步提交（false是异步提交）
+				language : "zh",//使用语言为中文
+				allowedFileExtensions : ['jpg', 'png','gif'],//上传的文件支持的格式
 				overwriteInitial: false,
-				maxFileSize: 1000,
-				maxFilesNum: 10,
+				maxFileSize: 1000,//文件大小
+				maxFilesNum: 10,//最大上传文件数量
 				enctype: 'multipart/form-data',
-				browseClass: "btn btn-info",
-				allowedFileTypes: ['image']
+				browseClass: "btn btn-info",//CSS样式
+				allowedFileTypes: ['image']//上传类型
 			});
 			$('#warningModel').modal('show');
 		} else if (result.Code == '11') {
@@ -347,7 +347,7 @@ function completeMaker() {
 		var result = eval('(' + result + ')');
 		if (result.Code == '00') {
 			$('#successModel').modal('show');
-			setTimeout(function(){window.location.href=url+result.retMsg;},3000)
+			setTimeout(function(){window.location.href=url+result.retMsg;},3000);
 		} else if (result.Code == '11') {
 			$("#errMsg").text(result.retMsg);
 			$('#alertModel').modal('show');

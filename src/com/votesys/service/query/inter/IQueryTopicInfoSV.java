@@ -28,7 +28,7 @@ public interface IQueryTopicInfoSV {
 	
 	/**
 	 * @Function com.votesys.service.query.inter.IQueryTopicInfoSV::queryTopicInfo
-	 * @Description 查询主题（分页）
+	 * @Description 查询主题（分页）t_topic_info
 	 * @param pageInfo
 	 * @return
 	 */

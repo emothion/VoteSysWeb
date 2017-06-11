@@ -27,8 +27,8 @@
 	          </div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">稍后登入</button>
-	        <button type="button" class="btn btn-primary" onclick="Logon('${pageContext.request.contextPath}')">现在登入</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" onclick="Logon('${pageContext.request.contextPath}')">登录</button>
 	      </div>
       </form>
     </div>
@@ -52,7 +52,7 @@
   				<input type="text" class="form-control" id="userNameA" name="userNameA" placeholder="请输入昵称..." data-toggle="tooltip" data-placement="right">
 			  </div>
 			  <div class="form-group" style="padding-bottom: 5px">
-  				<input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="请输入邮箱...">
+  				<input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="请输入邮箱..." data-toggle="tooltip" data-placement="right">
 			  </div>
 			  <div class="form-group" style="padding-bottom: 5px">
   				<input type="text" class="form-control" id="userPhone" name="userPhone" placeholder="请输入电话..." data-toggle="tooltip" data-placement="right">

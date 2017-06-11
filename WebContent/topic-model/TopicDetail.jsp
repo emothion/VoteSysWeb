@@ -22,7 +22,7 @@
 		</div>
 		<div id="navbar" class="navbar-right">
 			<a class="navbar-brand" href="${pageContext.request.contextPath}/userOperate/toUserInfoPage.do">${userSession.userName }</a>
-			<a id="login" class="navbar-brand" data-toggle="modal" data-target="#LogonModal" href="#">登陆</a>
+			<a id="login" class="navbar-brand" data-toggle="modal" data-target="#LogonModal" href="#">登录</a>
 			<a id="logon" class="navbar-brand" data-toggle="modal" data-target="#LoginModal" href="#">注册</a>
 			<a id="logout" href="javascript:logout('${pageContext.request.contextPath}')" class="navbar-brand">注销</a>
 		</div>
@@ -129,6 +129,22 @@ $(function() {
 	  $("#logout").hide();
 	}
 });
+
+/**
+ * 检查是否登录
+ * @param userID
+ * @returns
+ */
+function checkSession() {
+	var flag = ${userSession.userID!=null?true:false};
+	if (flag) {
+		$("#voteForm").submit();
+	} else {
+		$("#errMsg").text("请先登录后再投票");
+		$('#alertModel').modal('show');
+		return false;
+	}
+}
 </script>
 </body>
 </html>

@@ -26,6 +26,7 @@ import com.votesys.service.query.inter.IQueryUserInfoAndExtSV;
 import com.votesys.service.query.inter.IQueryUserInfoSV;
 import com.votesys.tools.PageUtil;
 import com.votesys.tools.ResponseUtil;
+import com.votesys.tools.StringUtils;
 
 import net.sf.json.JSONObject;
 
@@ -82,6 +83,9 @@ public class UserOperateController {
 		if (userAllInfo == null) {
 			ajaxResult.put(VoteSysConstant.Code, "01");
 			ajaxResult.put(VoteSysConstant.Message, "用户名或密码错误！");
+		} else if ("S".equals(resultUser.getStatus())) {
+			ajaxResult.put(VoteSysConstant.Code, "01");
+			ajaxResult.put(VoteSysConstant.Message, "用户名已经被限制登录！");
 		} else if (!"U".equals(resultUser.getStatus())) {
 			if ("M".equals(resultUser.getStatus())) {
 				ajaxResult.put(VoteSysConstant.Code, "11");
@@ -154,16 +158,22 @@ public class UserOperateController {
 	public ModelAndView toUserInfoPage(HttpServletRequest request) {
 		ModelAndView mAndView = new ModelAndView();
 		HttpSession session = request.getSession();
-		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
+		if (session.getAttribute("userSession") != null) {
+			String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
+			UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
+			if (StringUtils.isNotEmpty(userAllInfo.getUserSexy())) {
+				userAllInfo.setUserSexy("00".equals(userAllInfo.getUserSexy()) ? "女":"男");
+			} else {
+				userAllInfo.setUserSexy("");
+			}
+			mAndView.addObject("userAllInfo", userAllInfo);
+		}
 		
-		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
-		userAllInfo.setUserSexy("00".equals(userAllInfo.getUserSexy()) ? "女":"男");
 		
-		session.removeAttribute("topicSession");
-		mAndView.addObject("userAllInfo", userAllInfo);
+		session.removeAttribute("topicSession");//去用户信息页再返回首页，恢复查询前状态
 		mAndView.addObject("userInfoPageUnitPath", "UserInfoDtlList.jsp");
-		mAndView.addObject("flag", "1");
-		mAndView.setViewName("user-model/UserInfoPage");
+		mAndView.addObject("flag", "1");//用户信息操作栏第一条为蓝色
+		mAndView.setViewName("user-model/UserInfoPage");//括号内为数据去往页面的路径，前后缀在spring-mvc.xml中
 		return mAndView;
 	}
 	
@@ -179,7 +189,11 @@ public class UserOperateController {
 		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
 		
 		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
-		userAllInfo.setUserSexy("00".equals(userAllInfo.getUserSexy()) ? "女":"男");
+		if (StringUtils.isNotEmpty(userAllInfo.getUserSexy())) {
+			userAllInfo.setUserSexy("00".equals(userAllInfo.getUserSexy()) ? "女":"男");
+		} else {
+			userAllInfo.setUserSexy("");
+		}
 		
 		session.removeAttribute("topicSession");
 		mAndView.addObject("userAllInfo", userAllInfo);
@@ -199,12 +213,12 @@ public class UserOperateController {
 	@RequestMapping("/openUserInfoFormPage")
 	public ModelAndView openUserInfoFormPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mAndView = new ModelAndView();
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession();//获取请求中的session
 		String userID = ((UserAllInfoBean) session.getAttribute("userSession")).getUserID();
 		
 		UserAllInfoBean userAllInfo = queryUserInfoAndExtSV.queryUserAllInfo(userID);
 		
-		session.removeAttribute("topicSession");
+		session.removeAttribute("topicSession");//去掉首页搜索栏中的东西
 		mAndView.addObject("userAllInfo", userAllInfo);
 		mAndView.addObject("userInfoPageUnitPath", "UserInfoDtlForm.jsp");
 		mAndView.addObject("flag", "2");
@@ -250,7 +264,7 @@ public class UserOperateController {
 		PageBean pageinfo = new PageBean(1, 5);
 		List<TopicInfoBean> topicList = new ArrayList<TopicInfoBean>();
 		topicList = queryConjunctiveSV.qryTopicInfoByUserID(pageinfo, userID);
-		if (!topicList.isEmpty()) {
+		if (null != topicList) {
 			tote = queryConjunctiveSV.qryTopicInfoCount(userID, null, null);
 		}
 		

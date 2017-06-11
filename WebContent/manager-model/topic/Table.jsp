@@ -12,15 +12,15 @@
 					<input type="radio" name="topicStatus" value="U" > 发布
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="topicStatus" value="S"> 结束
+					<input type="radio" name="topicStatus" value="S" > 结束
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="topicStatus" value="P"> 预设
+					<input type="radio" name="topicStatus" value="P" > 预设
 				</label>
 			</div>
 			<div class="col-md-3">
 				<div class="input-group">
-					<input type="text" class="form-control" name=topicTitle placeholder="请输入查找的关键字...">
+					<input type="text" class="form-control" name="topicTitle" value="" placeholder="请输入查找的关键字...">
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="submit">
 							<span class="glyphicon glyphicon-search"></span> 查询
@@ -48,12 +48,12 @@
 			<td>${topic.topicContent }</td>
 			<td>${topic.effTime }</td>
 			<td>${topic.expTime }</td>
-			<td>
+			<td id="td${topic.topicID }">
 				${topic.topicStatus=="S" ? "结束" : "" }
-				<button type="button" class='btn btn-danger btn-xs ${topic.topicStatus=="P" ? "" : "hidden" }' onclick="publishTopic('${topic.topicID }')">
+				<button type="button" class='btn btn-danger btn-xs ${topic.topicStatus=="P" ? "" : "hidden" }' id="pt${topic.topicID }" onclick="publishTopic('${topic.topicID }')">
 					<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 发布
 				</button>
-				<button type="button" class='btn btn-danger btn-xs ${topic.topicStatus=="U" ? "" : "hidden" }' onclick="endTopic('${topic.topicID }')">
+				<button type="button" class='btn btn-danger btn-xs ${topic.topicStatus=="U" ? "" : "hidden" }' id="et${topic.topicID }" onclick="endTopic('${topic.topicID }')">
 					<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> 结束
 				</button>
 			</td>

@@ -29,6 +29,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:spring-mvc.xml</param-value>
 		</init-param>
+		<!--1：默认服务器启动即允许该项配置  -->
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>

@@ -12,12 +12,12 @@
 					<input type="radio" name="status" value="U" > 正常
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="status" value="S"> 限制
+					<input type="radio" name="status" value="S" > 限制
 				</label>
 			</div>
 			<div class="col-md-3">
 				<div class="input-group">
-					<input type="text" class="form-control" name="userName" placeholder="请输入查找人的关键字...">
+					<input type="text" class="form-control" name="userName" value="" placeholder="请输入查找人的关键字...">
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="submit">
 							<span class="glyphicon glyphicon-search"></span>&nbsp;查询
@@ -44,14 +44,17 @@
 			<td>${user.userEmail }</td>
 			<td>${user.userPhone }</td>
 			<td>
-				<button type="button" class='btn btn-danger btn-xs ${user.status=="U" ? "" : "hidden" }' onclick="forbidLogon('${user.userID }')">
+				<button type="button" class='btn btn-danger btn-xs ${user.status=="U" ? "" : "hidden" }' id="fb${user.userID }" onclick="forbidLogon('${user.userID }')">
 					<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 限制登录
 				</button>
-				<button type="button" class='btn btn-danger btn-xs ${user.status=="S" ? "" : "hidden" }' onclick="recoverLogon('${user.userID }')">
+				<button type="button" class='btn btn-success btn-xs ${user.status=="S" ? "" : "hidden" }' id="rc${user.userID }" onclick="recoverLogon('${user.userID }')">
 					<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> 恢复登录
 				</button>
 			</td>
 		</tr>
+		<tr>
+		</tr>
+	
 	</c:forEach>
 </table>
 <div class="container text-center" style="width: 100%">

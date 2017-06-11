@@ -89,8 +89,8 @@ public class PageUtil {
 	 * @return
 	 */
 	public static String setVoteSubmitButton() {
-		StringBuffer div = new StringBuffer("<p class='text-center'><button type='submit'");
-		div.append(" class='btn btn-primary btn-sm'>确认</button></p>");
+		StringBuffer div = new StringBuffer("<p class='text-center'><button type='button'");
+		div.append(" class='btn btn-primary btn-sm' onclick=\"checkSession()\">投票</button></p>");
 		
 		return div.toString();
 	}

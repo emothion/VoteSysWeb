@@ -46,15 +46,24 @@ public class ExportInExcelUtil {
 			// 根据工作表名获取WritableSheet对象
 			wws = wwb.getSheet("Vote");
 			Label label = null;
+			int num = 0;
+			for (int i = 0; i < params.size(); i++) {
+				num = num + Integer.parseInt(params.get(i)[2]);
+			}
 			for (int i = 1; i <= params.size(); i++) {
-				for (int j = 0; j < 3; j++) {
+				for (int j = 0; j < 4; j++) {
 					// 创建label对象设置value值j相当于是X轴I是Y轴位置
 					if (j == 1) {
 						label = new Label(j, i, params.get(i - 1)[j], wcfN);// 插入文本类型
 						wws.addCell(label);// 添加到工作薄中
-					} else {
+					} else if(j == 2) {
 						jxl.write.Number labelNF = new Number(j, i, Double.valueOf(params.get(i - 1)[j]), wcfN);// 插入数字类型
 						wws.addCell(labelNF);
+					}
+					if (j==3) {
+						double part = (Double.parseDouble(params.get(i - 1)[j-1])/num)*100;
+						label = new Label(j, i, part+"%", wcfN);// 插入文本类型
+						wws.addCell(label);
 					}
 				}
 			}

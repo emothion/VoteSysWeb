@@ -52,19 +52,6 @@ function submitComment() {
 }
 
 /**
- * 检查是否登录
- * @param userID
- * @returns
- */
-function checkSession(userID) {
-	if (userID==undefined || userID==null || userID == "") {
-		$("#errMsg").text("请先登录后再投票");
-		$('#alertModel').modal('show');
-		return;
-	}
-}
-
-/**
  * 提交踩或赞
  * @param comID
  * @param status
@@ -80,9 +67,9 @@ function submitOpposerOrEndorse(comID, status, obj) {
 			$("#sucMsg").text("操作成功");
 			$('#successModel').modal('show');
 			if (status=="O") {
-				$(obj).html("<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'></span>(" +　result.SUB + ")");
+				$(obj).html("<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'></span>(" + result.SUB + ")");
 			} else if (status=="E") {
-				$(obj).html("<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span>(" +　result.UP + ")");
+				$(obj).html("<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span>(" + result.UP + ")");
 			}
 		} else if (result.Code == '11'){
 			$("#errMsg").text(result.retMsg);

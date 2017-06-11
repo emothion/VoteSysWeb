@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,12 +59,12 @@ public class ManagerController {
 	@RequestMapping("/initManagerPage")
 	public ModelAndView initManagerPage(HttpServletRequest request) {
 		ModelAndView mAndView = new ModelAndView();
-		PageBean pageInfo = new PageBean(1, 3);
+		PageBean pageInfo = new PageBean(1, 5);
 		List<UserInfoBean> userList = getUserList(pageInfo, new UserInfoBean());
 		
 		int Tote = queryUserInfoSV.queryUserInfoTote(new UserInfoBean());
-		
 		String pageCode = PageUtil.getPagation(request.getContextPath()+"/manager/userGetNextPage.do", Tote, 1, 3);
+		request.getSession().removeAttribute("condition");
 		mAndView.addObject("selected", "U");
 		mAndView.addObject("pageCode",pageCode);
 		mAndView.addObject("userList", userList);
@@ -83,9 +84,18 @@ public class ManagerController {
 	@RequestMapping("/userGetNextPage")
 	public ModelAndView userGetNextPage(@RequestParam("page") String page, UserInfoBean userInfo, HttpServletRequest request) {
 		ModelAndView mAndView = new ModelAndView();
-		PageBean pageInfo = new PageBean(Integer.valueOf(page), 3);
+		PageBean pageInfo = new PageBean(Integer.valueOf(page), 5);
+		HttpSession session = request.getSession();
+
+		if (session.getAttribute("condition") == null) {
+			session.setAttribute("condition", userInfo);
+		} else {
+			if (userInfo.getUserName() != null || userInfo.getStatus() != null) {
+				session.setAttribute("condition", userInfo);
+			}
+			userInfo = (UserInfoBean) session.getAttribute("condition");
+		}
 		List<UserInfoBean> userList = getUserList(pageInfo, userInfo);
-		
 		int Tote = queryUserInfoSV.queryUserInfoTote(userInfo);
 		
 		String pageCode = PageUtil.getPagation(request.getContextPath()+"/manager/userGetNextPage.do", Tote, Integer.valueOf(page), 3);
@@ -121,6 +131,23 @@ public class ManagerController {
 		ResponseUtil.write(ajaxResult, response);
 	}
 	
+	@RequestMapping("/topicPage")
+	public ModelAndView topicPage(HttpServletRequest request) {
+		ModelAndView mAndView = new ModelAndView();
+		PageBean pageInfo = new PageBean(1, 3);
+		TopicInfoBean topicInfo = new TopicInfoBean();
+		List<TopicInfoBean> topicList = queryTopicInfoSV.queryTopicInfoForManager(pageInfo, topicInfo);
+		int Tote = queryTopicInfoSV.queryTopicInfoForManagerTote(topicInfo);
+		String pageCode = PageUtil.getPagation(request.getContextPath()+"/manager/topicGetNextPage.do", Tote, 1, 3);
+		request.getSession().removeAttribute("condition");
+		mAndView.addObject("selected", "T");
+		mAndView.addObject("pageCode",pageCode);
+		mAndView.addObject("topicList", topicList);
+		mAndView.addObject("currentPage", "/manager-model/topic/Table.jsp");
+		mAndView.setViewName("manager-model/managerPage");
+		return mAndView;
+	}
+	
 	/**
 	 * @Function com.votesys.controller.ManagerController::topicGetNextPage
 	 * @Description 获取主题下一页
@@ -133,6 +160,15 @@ public class ManagerController {
 	public ModelAndView topicGetNextPage(@RequestParam("page") String page, TopicInfoBean topicInfo, HttpServletRequest request) {
 		ModelAndView mAndView = new ModelAndView();
 		PageBean pageInfo = new PageBean(Integer.valueOf(page), 3);
+		HttpSession session = request.getSession();
+		if (session.getAttribute("condition") == null) {
+			session.setAttribute("condition", topicInfo);
+		} else {
+			if (topicInfo.getTopicTitle() != null || topicInfo.getTopicStatus() != null) {
+				session.setAttribute("condition", topicInfo);
+			}
+			topicInfo = (TopicInfoBean) session.getAttribute("condition");
+		}
 		List<TopicInfoBean> topicList = queryTopicInfoSV.queryTopicInfoForManager(pageInfo, topicInfo);
 		
 		int Tote = queryTopicInfoSV.queryTopicInfoForManagerTote(topicInfo);
@@ -160,9 +196,9 @@ public class ManagerController {
 		boolean ret = false;
 		int flag = 0;
 		if ("U".equals(topicStatus)) {
-			ret = operTopicInfoSV.updateTopicInfoSetStatusS(topicID, topicStatus);
-		} else {
 			flag = operTopicInfoSV.updateTopicStatusToU(topicID);
+		} else {
+			ret = operTopicInfoSV.updateTopicInfoSetStatusS(topicID, topicStatus);
 		}
 		
 		if (ret || flag > 0) {
@@ -188,11 +224,21 @@ public class ManagerController {
 	public ModelAndView comGetNextPage(@RequestParam("page") String page, CommentBean comment, HttpServletRequest request) {
 		ModelAndView mAndView = new ModelAndView();
 		PageBean pageInfo = new PageBean(Integer.valueOf(page), 3);
+		/*HttpSession session = request.getSession();
+		if (session.getAttribute("condition") == null) {
+			session.setAttribute("condition", comment);
+		} else {
+			if (comment.getComContent() != null || comment.getComStatus() != null) {
+				session.setAttribute("condition", comment);
+			}
+			comment = (CommentBean) session.getAttribute("condition");
+		}*/
 		List<CommentBean> comList = queryCommentSV.queryComment(pageInfo);
 		
 		int Tote = queryCommentSV.queryCommentTote();
 		
 		String pageCode = PageUtil.getPagation(request.getContextPath()+"/manager/comGetNextPage.do", Tote, Integer.valueOf(page), 3);
+		request.getSession().removeAttribute("condition");
 		mAndView.addObject("selected", "R");
 		mAndView.addObject("pageCode",pageCode);
 		mAndView.addObject("comList", comList);
@@ -209,6 +255,7 @@ public class ManagerController {
 	 * @param response
 	 * @throws Exception 
 	 */
+	@RequestMapping("/comStatusChange")
 	public void comStatusChange(@RequestParam("comID") String comID, HttpServletResponse response) throws Exception {
 		JSONObject ajaxResult = new JSONObject();
 		int ret = operCommentSV.updateCommentContent(comID);

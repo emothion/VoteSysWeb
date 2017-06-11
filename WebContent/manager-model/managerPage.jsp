@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap3/css/bootstrap.min.css" />
 <script src="${pageContext.request.contextPath}/bootstrap3/js/jquery-1.11.2.min.js"></script>
 <script src="${pageContext.request.contextPath}/bootstrap3/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/js/LoadIndex.js"></script>
+<script src="${pageContext.request.contextPath}/manager-model/js/managerPage.js"></script>
 <script src="${pageContext.request.contextPath}/js/Common.js"></script>
 <%
 	/* if (session.getAttribute("manager") == null) {
@@ -41,9 +41,9 @@
 					<div role="navigation" style="margin-bottom: -11px">
 						<ul class="nav nav-tabs nav-justified">
 							<li role="presentation" id="li1" class='${selected=="U" ? "active" : "" }'><a
-								href="${pageContext.request.contextPath}/manager/userGetNextPage.do?page=1">会员管理</a></li>
+								href="${pageContext.request.contextPath}/manager/initManagerPage.do">会员管理</a></li>
 							<li role="presentation" id="li2" class='${selected=="T" ? "active" : "" }'><a
-								href="${pageContext.request.contextPath}/manager/topicGetNextPage.do?page=1">话题管理</a></li>
+								href="${pageContext.request.contextPath}/manager/topicPage.do">话题管理</a></li>
 							<li role="presentation" id="li3" class='${selected=="R" ? "active" : "" }'><a
 								href="${pageContext.request.contextPath}/manager/comGetNextPage.do?page=1">评论管理</a></li>
 						</ul>
@@ -80,7 +80,7 @@
 
 <jsp:include page="/CommoPage/AlertModel.jsp"></jsp:include>
 <script type="text/javascript">
-var url = ${pageContext.request.contextPath };
+var url = "/VoteSysWeb";
 </script>
 </body>
 </html>

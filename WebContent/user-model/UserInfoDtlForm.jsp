@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<form class="form-horizontal" action="${pageContext.request.contextPath}/userDetail/userInfoDetailEdit.do" method="post" style="margin-right: 40px; margin-left: 40px;" onsubmit="confirmSubmit()">
+<form class="form-horizontal" action="${pageContext.request.contextPath}/userDetail/userInfoDetailEdit.do" method="post" style="margin-right: 40px; margin-left: 40px;">
 	<div class="form-group">
 		<label for="userEmail" class="col-sm-2 control-label">用户电邮</label>
 		<div class="col-sm-8">
@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
 	<div class="form-group">
 		<label for="userDesc" class="col-sm-2 control-label">个人签名</label>
 		<div class="col-sm-8">
-			<textarea class="form-control" rows="4" name="userDesc" id="userDesc" placeholder="请编辑个人签名...">${userAllInfo.userDesc }</textarea>
+			<textarea class="form-control" rows="4" style="resize:none" name="userDesc" id="userDesc" placeholder="请编辑个人签名...">${userAllInfo.userDesc }</textarea>
 		</div>
 		<div class="col-sm-offset-2"></div>
 	</div>

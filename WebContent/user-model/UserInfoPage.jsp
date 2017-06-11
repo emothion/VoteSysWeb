@@ -80,7 +80,7 @@
 						<div class="col-md-8 text-center" style="padding-top: 30px"><h1>${userSession.userName}</h1></div>
 						<div class="col-md-4 text-right">
 							<a href="javascript:openUserImgEdit()" style="width: 140px; height: 140px">
-								<img src="../image/user/${userSession.userImg }" alt="Responsive image" class="img-circle" style="width: 140px">
+								<img src="../image/user/${userAllInfo.userImg }" alt="Responsive image" class="img-circle" style="width: 140px">
 							</a>
 						</div>
 					</div>

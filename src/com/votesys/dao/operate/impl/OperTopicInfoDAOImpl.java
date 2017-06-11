@@ -53,7 +53,13 @@ public class OperTopicInfoDAOImpl implements IOperTopicInfoDAO {
 	public boolean updateTopicInfo(TopicInfoBean topicInfo) {
 		String sql = new String(VoteSysConstant.SQLTemplate.SQL_UPDATE_TOPIC_INFO);
 		
-		int ret = jdbcTemplate.update(sql, new Object[] {topicInfo.getTopicTitle(), topicInfo.getTopicContent(), topicInfo.getTopicStatus(), topicInfo.getEffTime(), topicInfo.getTopicID()});
+		int ret = jdbcTemplate.update(sql, new Object[] {
+				topicInfo.getTopicTitle(),
+				topicInfo.getTopicContent(),
+				topicInfo.getTopicStatus(),
+				topicInfo.getEffTime(),
+				topicInfo.getTopicID()
+				});
 		
 		if (ret > 0) {
 			return true;

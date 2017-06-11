@@ -26,8 +26,8 @@ public class QueryRelationSVImpl implements IQueryRelationSV {
 	}
 
 	@Override
-	public String qryUTRelFintUserIDByTopicID(String topicID) {
-		return queryRelationDAO.qryUTRelFintUserIDByTopicID(topicID);
+	public String qryUTRelFindUserIDByTopicID(String topicID) {
+		return queryRelationDAO.qryUTRelFindUserIDByTopicID(topicID);
 	}
 
 	@Override

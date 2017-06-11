@@ -6,9 +6,11 @@ public class VoteSysConstant {
 	public static final String ERR0002 = "登陆使用的电子邮箱为空";
 	public static final String ERR0003 = "登陆使用的手机号为空";
 	public static final String ERR0004 = "登陆用户密码不能为空";
+	
 	public static final String Code = "Code";
 	public static final String Message = "retMsg";
 	public static final String CONST00001 = "retInfo";
+	
 	/*** 投票界面绘制单选按键*/
 	public static final String radioBtn = "<div class='radio'><label><input type='radio' name='radioBtn' value='";
 	/*** 投票界面绘制复选按键*/

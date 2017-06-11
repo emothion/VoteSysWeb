@@ -21,11 +21,11 @@ public interface IQueryRelationSV {
 	
 	/**
 	 * @Function com.votesys.service.query.inter.IQueryRelationSV::qryUTRelFintUserIDByTopicID
-	 * @Description 通过主题编号查找发布人的编号
+	 * @Description 通过主题编号查找发布人的编号t_user_topic_relate
 	 * @param topicID
 	 * @return
 	 */
-	public String qryUTRelFintUserIDByTopicID(String topicID);
+	public String qryUTRelFindUserIDByTopicID(String topicID);
 	
 	/**
 	 * @Function com.votesys.service.query.inter.IQueryRelationSV::qryVoteOpitonGetCount

@@ -41,7 +41,7 @@ public interface IQueryUserInfoSV {
 	
 	/**
 	 * @Function com.votesys.dao.query.inter.IQueryUserInfoDAO::queryUserInfoByuserID
-	 * @Description 通过用户编号（主键）查询用户信息
+	 * @Description 通过用户编号（主键）查询用户信息t_user_info
 	 * @param userID
 	 */
 	public UserInfoBean queryUserInfoByUserID(String userID);
